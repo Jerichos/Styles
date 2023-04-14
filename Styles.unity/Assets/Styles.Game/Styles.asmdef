@@ -1,0 +1,16 @@
+{
+    "name": "Styles",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e283485f0a77da2478d9709c9c7d8a14"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
