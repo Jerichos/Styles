@@ -85,8 +85,39 @@ public class Inventory : MonoBehaviour
         callback?.Invoke(InventoryReturnCode.InventoryFull);
     }
 
-    public void RemoveItem()
+    public Item RemoveItem(int slotID)
     {
+        if(_slots[slotID].Empty)
+            return null;
+
+        var item = _slots[slotID].Item;
+        _slots[slotID].Item = null;
+        _slots[slotID].Count = 0;
+        
+        EInventoryChanged?.Invoke(_slots);
+        return item;
+    }
+
+    public void SortItems()
+    {
+        List<InventorySlot> items = new();
+
+        for (int i = 0; i < _slots.Length; i++)
+        {
+            if(_slots[i].Empty)
+                continue;
+
+            items.Add(_slots[i]);
+            _slots[i].Item = null;
+            _slots[i].Count = 0;
+        }
+        
+        if(items.Count == 0)
+            return;
+
+        for (int i = 0; i < items.Count; i++)
+            _slots[i] = items[i];
+        
         EInventoryChanged?.Invoke(_slots);
     }
 }

@@ -29,7 +29,8 @@ public class TestInventoryFeatures : MonoBehaviour
 
     public void RemoveItem(int id)
     {
-        _inventory.RemoveItem();
+        _inventory.RemoveItem(0);
+        _inventory.SortItems();
     }
 
     public void OpenInventory()
