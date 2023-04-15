@@ -39,8 +39,8 @@ public class InventoryUI : UIPanel
             return;
         }
 
-        var currentSlots = _panelSlots.GetComponentsInChildren<InventorySlotUI>();
-        if (currentSlots.Length != _inventory.Size)
+        _uiSlots = _panelSlots.GetComponentsInChildren<InventorySlotUI>();
+        if (_uiSlots.Length != _inventory.Size)
         {
             DestroyUISlots();
 
@@ -53,17 +53,11 @@ public class InventoryUI : UIPanel
                 Debug.Log("add ui slot");
             }
         }
-        else
-        {
-            for (int i = 0; i < currentSlots.Length; i++)
-            {
-                currentSlots[i].InitSlot(i);
-            }
-        }
     }
 
     private void DestroyUISlots()
     {
+        gameObject.Log("destroying ui slots");
         var currentSlots = _panelSlots.GetComponentsInChildren<InventorySlotUI>();
         for (int i = 0; i < currentSlots.Length; i++)
         {
@@ -92,6 +86,7 @@ public class InventoryUI : UIPanel
                 Debug.LogError("null");
             }
             
+            Debug.Log("update slot");
             _uiSlots[i].UpdateSlot(value[i]);
         }
     }
