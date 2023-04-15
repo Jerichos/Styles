@@ -26,8 +26,6 @@ public class BoxPhysics2D
         var shrinkedSize = _collider.size * shrinkSizeMag;
         _depthSize = Vector2.one * (1 - shrinkSizeMag) / 2;
         
-        Debug.Log($"size: {_collider.size} shrinked: {shrinkedSize} depthSize: {_depthSize}");
-        
         _verticalRayCount = (int) Mathf.Ceil(shrinkedSize.y / maxRayGap) + 1;
         _horizontalRayCount = (int) Mathf.Ceil(shrinkedSize.x / maxRayGap) + 1;
 
@@ -60,7 +58,6 @@ public class BoxPhysics2D
             
             if(hit)
             {
-                Debug.Log($"rayLength: {rayLength} deltaX: {deltaX}");
                 hit.distance -= _depthSize.x;
                 Debug.DrawLine(rayOrigin, hit.point, Color.red);
                 return true;
@@ -92,7 +89,6 @@ public class BoxPhysics2D
             
             if(hit)
             {
-                Debug.Log($"rayLength: {rayLength} deltaY: {deltaY}");
                 hit.distance -= _depthSize.y;
                 Debug.DrawLine(rayOrigin, hit.point, Color.red);
                 return true;

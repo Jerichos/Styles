@@ -8,7 +8,6 @@ namespace Styles.Game.scripts
 [RequireComponent(typeof(BoxCollider2D))]
 public class CharacterPhysics2D : MonoBehaviour
 {
-    [SerializeField] private Vector2 _motor;
     [SerializeField] private float _baseMoveSpeed;
     [SerializeField] private BoxCollider2D _collider;
     [SerializeField] private LayerMask _collisionMask;
@@ -35,7 +34,6 @@ public class CharacterPhysics2D : MonoBehaviour
         {
             // snap to to hit
             var horizontalSnap =  Mathf.Sign(_velocityDelta.x) * horizontalHit.distance;
-            Debug.Log($"hitDistance: {horizontalHit.distance} horizontalSnap: {horizontalSnap}");
             _transform.position += Vector3.right * horizontalSnap;
             _velocityDelta.x = 0;
         }
@@ -43,7 +41,6 @@ public class CharacterPhysics2D : MonoBehaviour
         if (verticalCollision)
         {
             var verticalSnap = Mathf.Sign(_velocityDelta.y) * verticalHit.distance;
-            Debug.Log($"hitDistance: {verticalHit.distance} verticalSnap: {verticalSnap}");
             _transform.position += Vector3.up * verticalSnap;
             _velocityDelta.y = 0;
         }
@@ -54,7 +51,6 @@ public class CharacterPhysics2D : MonoBehaviour
     public void Move(Vector2 direction)
     {
         _velocity =  direction * _baseMoveSpeed;
-        Debug.Log($"velocity: {_velocity}");
     }
 }
 }
