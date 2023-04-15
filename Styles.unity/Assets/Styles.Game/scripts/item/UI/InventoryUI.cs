@@ -35,20 +35,14 @@ public class InventoryUI : UIPanel
         if (!_inventory)
         {
             gameObject.Log("_inventory has not been set");
+            DestroyUISlots();
             return;
         }
 
         var currentSlots = _panelSlots.GetComponentsInChildren<InventorySlotUI>();
         if (currentSlots.Length != _inventory.Size)
         {
-            for (int i = 0; i < currentSlots.Length; i++)
-            {
-#if UNITY_EDITOR
-                DestroyImmediate(currentSlots[i].gameObject);
-#else
-                Destroy(currentSlots[i].gameObject);
-#endif
-            }
+            DestroyUISlots();
 
             for (int i = 0; i < _inventory.Size; i++)
             {
@@ -58,6 +52,26 @@ public class InventoryUI : UIPanel
                 _uiSlots[i] = newSlot;
                 Debug.Log("add ui slot");
             }
+        }
+        else
+        {
+            for (int i = 0; i < currentSlots.Length; i++)
+            {
+                currentSlots[i].InitSlot(i);
+            }
+        }
+    }
+
+    private void DestroyUISlots()
+    {
+        var currentSlots = _panelSlots.GetComponentsInChildren<InventorySlotUI>();
+        for (int i = 0; i < currentSlots.Length; i++)
+        {
+#if UNITY_EDITOR
+            DestroyImmediate(currentSlots[i].gameObject);
+#else
+                Destroy(currentSlots[i].gameObject);
+#endif
         }
     }
 

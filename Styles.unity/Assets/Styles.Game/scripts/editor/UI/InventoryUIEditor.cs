@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Styles.Game.editor
@@ -11,6 +12,12 @@ public class InventoryUIEditor : Editor
         base.OnInspectorGUI();
         var inventoryUI = target as InventoryUI;
 
+        // do not update if this is a prefab
+        if (!PrefabUtility.IsPartOfPrefabInstance(inventoryUI) && PrefabUtility.IsPartOfAnyPrefab(inventoryUI))
+        {
+            return;
+        }
+        
         if (!inventoryUI)
         {
             Debug.LogError($"target is not {nameof(inventoryUI)}");
