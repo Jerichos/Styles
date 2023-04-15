@@ -43,6 +43,7 @@ public class InventoryUI : UIPanel
         if (_uiSlots.Length != _inventory.Size)
         {
             DestroyUISlots();
+            _uiSlots = new InventorySlotUI[_inventory.Size];
 
             for (int i = 0; i < _inventory.Size; i++)
             {
@@ -86,7 +87,6 @@ public class InventoryUI : UIPanel
                 Debug.LogError("null");
             }
             
-            Debug.Log("update slot");
             _uiSlots[i].UpdateSlot(value[i]);
         }
     }
