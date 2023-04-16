@@ -1,8 +1,7 @@
-﻿using System;
-using Styles.Game.scripts.physics;
+﻿using Styles.Game.scripts.physics;
 using UnityEngine;
 
-namespace Styles.Game.scripts
+namespace Styles.Game
 {
 
 [RequireComponent(typeof(BoxCollider2D))]

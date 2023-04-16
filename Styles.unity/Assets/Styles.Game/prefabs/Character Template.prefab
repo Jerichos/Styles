@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9004251654313190882}
   - component: {fileID: 1474907610156284943}
   - component: {fileID: 1474907610156284938}
+  - component: {fileID: 6736870134789130694}
   m_Layer: 0
   m_Name: Character Template
   m_TagString: Untagged
@@ -51,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _physics: {fileID: 1474907610156284943}
+  _interactions: {fileID: 0}
 --- !u!114 &1474907610156284937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +135,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &6736870134789130694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474907610156284941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d64f1c421a9410da3505d778f0bae60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactionLayers:
+    serializedVersion: 2
+    m_Bits: 192
 --- !u!1 &1474907610349581050
 GameObject:
   m_ObjectHideFlags: 0
