@@ -36,7 +36,7 @@ public class CharacterInteractions : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private float _debugTTL = 1f;
+    private readonly float _debugTTL = 1f;
     private float _t;
     private Vector2 _rayOrigin;
     private Vector2 _hitOrigin;
@@ -50,6 +50,7 @@ public class CharacterInteractions : MonoBehaviour
         _rayOrigin = rayOrigin;
         _rayDirection = rayDirection;
         _rayLength = rayLength;
+        _t = Time.realtimeSinceStartup;
     }
 
     private void DebugHit(Vector2 hitOrigin, RaycastHit2D hit)
@@ -57,13 +58,23 @@ public class CharacterInteractions : MonoBehaviour
         _isHit = true;
         _hit = hit;
         _hitOrigin = hitOrigin;
+        _t = Time.realtimeSinceStartup;
     }
 
     private void OnDrawGizmos()
     {
+        if (Time.realtimeSinceStartup > _t + _debugTTL)
+        {
+            _isHit = false;
+            return;
+        }
+        
         Gizmos.color = Color.green;
         Gizmos.DrawRay(_rayOrigin, _rayDirection * _rayLength);
 
+        if(!_isHit)
+            return;
+        
         Gizmos.color = Color.red;
         Gizmos.DrawLine(_hitOrigin, _hit.point);
         Gizmos.DrawSphere(_hitOrigin, 0.05f);
