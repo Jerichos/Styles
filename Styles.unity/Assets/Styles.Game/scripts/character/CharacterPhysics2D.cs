@@ -51,5 +51,10 @@ public class CharacterPhysics2D : MonoBehaviour
     {
         _velocity =  direction * _baseMoveSpeed;
     }
+
+    public void Teleport(Vector2 teleportPosition)
+    {
+        _transform.position = teleportPosition;
+    }
 }
 }
