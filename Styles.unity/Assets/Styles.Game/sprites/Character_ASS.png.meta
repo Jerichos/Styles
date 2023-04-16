@@ -130,7 +130,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 643
-        width: 29
+        width: 25
         height: 52
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -313,6 +313,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Character_ASS_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 386
+        width: 25
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af64bfb8746a9f741924632e1f52fbd0
+      internalID: 1934552337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character_ASS_11
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 386
+        width: 25
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aef08828a23dd2a479cafaee194eeba0
+      internalID: 314277026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character_ASS_12
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 386
+        width: 25
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab5cae75d7d2e3d42bcc4e1413190131
+      internalID: -930121332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -325,15 +388,18 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Character_ASS_4: -916935739
+      Character_ASS_11: 314277026
       Character_ASS_1: -1619515390
       Character_ASS_6: -718768372
       Character_ASS_8: -488922850
       Character_ASS_5: -515450094
       Character_ASS_7: 1883384561
       Character_ASS_9: -1529612126
+      Character_ASS_12: -930121332
       Character_ASS_3: 1678718126
       Character_ASS_2: 1024737833
       Character_ASS_0: 667583660
+      Character_ASS_10: 1934552337
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

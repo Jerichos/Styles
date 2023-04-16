@@ -23,7 +23,8 @@ public class CharacterManager : MonoBehaviour
                 return;
 
             _facing = value;
-            _skin.SetSkin(_facing);
+            _skin.UpdateSkin(_facing);
+            _skin.UpdateGarments(_facing);
         }
     }
     

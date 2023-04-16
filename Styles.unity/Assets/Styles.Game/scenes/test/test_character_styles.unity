@@ -424,7 +424,7 @@ SpriteRenderer:
   m_SortingLayerID: 1527692389
   m_SortingLayer: 1
   m_SortingOrder: 15
-  m_Sprite: {fileID: 1883384561, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -432,7 +432,7 @@ SpriteRenderer:
   m_Size: {x: 0.7604167, y: 0.5208333}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &280064499
@@ -2020,7 +2020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1474907610349581050, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}
       propertyPath: m_Name
-      value: character model
+      value: character skin
       objectReference: {fileID: 0}
     - target: {fileID: 1474907610349581051, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}
       propertyPath: m_LocalScale.x
@@ -2029,6 +2029,14 @@ PrefabInstance:
     - target: {fileID: 1474907610349581051, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.141
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004251654313190882, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}
+      propertyPath: _defaultItems.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f40f207d5ef91a43bed29e42cc89e02, type: 2}
+    - target: {fileID: 9004251654313190882, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}
+      propertyPath: _defaultItems.Array.data[0].Count
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}

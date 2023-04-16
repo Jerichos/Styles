@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -19,7 +20,7 @@ public enum BodySlot
 public enum GarmentSlot
 {
     Head,
-    Top,
+    Body,
     Hands,
     Feet,
 }
@@ -35,6 +36,7 @@ public enum Facing
 public class CharacterSkin : MonoBehaviour
 {
     [SerializeField] private CharacterSkinSO _characterSkin;
+    [SerializeField] private OutfitSO _defaultOutfit;
     [SerializeField] private Facing _facing;
     
     [Header("body renderers")]
@@ -46,24 +48,26 @@ public class CharacterSkin : MonoBehaviour
     [SerializeField] private SpriteRenderer _footL;
 
     [Header("Cloth renderers")] 
-    [SerializeField] private SpriteRenderer _hat;
-    [SerializeField] private SpriteRenderer _eyes;
-    [SerializeField] private SpriteRenderer _top;
-    [SerializeField] private SpriteRenderer _gloveL;
-    [SerializeField] private SpriteRenderer _gloveR;
-    [SerializeField] private SpriteRenderer _bootL;
-    [SerializeField] private SpriteRenderer _bootR;
+    [SerializeField] private SpriteRenderer _headGarment;
+    [SerializeField] private SpriteRenderer _bodyGarment;
+    [SerializeField] private SpriteRenderer _handGarmentL;
+    [SerializeField] private SpriteRenderer _handGarmentR;
+    [SerializeField] private SpriteRenderer _footGarmentL;
+    [SerializeField] private SpriteRenderer _footGarmentR;
     
     private readonly Dictionary<BodySlot, SpriteRenderer> BodyRenderers = new();
-    private readonly Dictionary<GarmentSlot, SpriteRenderer> ClothRenderers = new();
+    private readonly Dictionary<GarmentSlot, SpriteRenderer> GarmentRenderers = new();
+    private readonly Dictionary<GarmentSlot, Garment> Garments = new();
 
     private void Awake()
     {
-        Initialize();
-        SetSkin(Facing.Front);
+        InitializeRenderersAndSlots();
+        UpdateSkin(Facing.Front);
+        InitializeDefaultGarments();
+        UpdateGarments(Facing.Front);
     }
 
-    private void Initialize()
+    private void InitializeRenderersAndSlots()
     {
         // initialize skin renderers dictionary
         if(!BodyRenderers.ContainsKey(BodySlot.Body))
@@ -78,9 +82,35 @@ public class CharacterSkin : MonoBehaviour
             BodyRenderers.Add(BodySlot.FootL, _footL);
         if(!BodyRenderers.ContainsKey(BodySlot.FootR))
             BodyRenderers.Add(BodySlot.FootR, _footR);
+        
+        // initialize garment renderers
+        if (!GarmentRenderers.ContainsKey(GarmentSlot.Head))
+        {
+            GarmentRenderers.Add(GarmentSlot.Head, _headGarment);
+            Debug.Log("headGarment renderer added");
+        }
+        if(!GarmentRenderers.ContainsKey(GarmentSlot.Body))
+            GarmentRenderers.Add(GarmentSlot.Body, _bodyGarment);
+        if (!GarmentRenderers.ContainsKey(GarmentSlot.Hands))
+            GarmentRenderers.Add(GarmentSlot.Hands, _handGarmentL);
+        if(!GarmentRenderers.ContainsKey(GarmentSlot.Feet))
+            GarmentRenderers.Add(GarmentSlot.Feet, _footGarmentL);
+        
+        // initialize garment slots
+        if(!Garments.ContainsKey(GarmentSlot.Head))
+            Garments.Add(GarmentSlot.Head, null);
+        
+        if(!Garments.ContainsKey(GarmentSlot.Body))
+            Garments.Add(GarmentSlot.Body, null);
+        
+        if(!Garments.ContainsKey(GarmentSlot.Hands))
+            Garments.Add(GarmentSlot.Hands, null);
+        
+        if(!Garments.ContainsKey(GarmentSlot.Feet))
+            Garments.Add(GarmentSlot.Feet, null);
     }
-
-    public void SetSkin(Facing facing)
+    
+    public void UpdateSkin(Facing facing)
     {
         if (!_characterSkin)
         {
@@ -109,10 +139,83 @@ public class CharacterSkin : MonoBehaviour
         }
     }
 
+    public void UpdateGarments(Facing facing)
+    {
+        foreach (var garment in Garments)
+        {
+            Debug.Log("update garment of slot " + garment.Key.ToString());
+            
+            if (!GarmentRenderers.ContainsKey(garment.Key))
+            {
+                Debug.LogError($"missing slot key in GarmentRenderers of slot {garment.Key.ToString()}");
+                continue;
+            }
+            
+            if (!GarmentRenderers[garment.Key])
+            {
+                Debug.LogError($"missing SpriteRenderer in GarmentRenderers of slot {garment.Key.ToString()}");
+                continue;
+            }
+            
+            if (garment.Value == null)
+            {
+                Debug.Log("garment not set");
+                GarmentRenderers[garment.Key].sprite = null;
+                GarmentRenderers[garment.Key].gameObject.SetActive(false);
+                continue;
+            }
+
+            GarmentRenderers[garment.Key].gameObject.SetActive(true);
+            Debug.Log(garment.Value.ItemSo.GarmentData.GetSprite(facing).ToString());
+            GarmentRenderers[garment.Key].sprite = garment.Value.ItemSo.GarmentData.GetSprite(facing);
+        }
+    }
+
+    private void InitializeDefaultGarments()
+    {
+        if (!_defaultOutfit)
+        {
+            Debug.Log("default outfit not set");
+            DestroyAllClothing();
+            return;
+        }
+        
+        if (_defaultOutfit.OutfitData.Head != null)
+        {
+            var bodyGarment = _defaultOutfit.OutfitData.Head.CreateItemInstance();
+            Garments[GarmentSlot.Head] = bodyGarment;
+        }
+        
+        if (_defaultOutfit.OutfitData.Body != null)
+        {
+            var bodyGarment = _defaultOutfit.OutfitData.Body.CreateItemInstance();
+            Garments[GarmentSlot.Body] = bodyGarment;
+        }
+        
+        if (_defaultOutfit.OutfitData.Hands != null)
+        {
+            var bodyGarment = _defaultOutfit.OutfitData.Hands.CreateItemInstance();
+            Garments[GarmentSlot.Hands] = bodyGarment;
+        }
+        
+        if (_defaultOutfit.OutfitData.Feet != null)
+        {
+            var bodyGarment = _defaultOutfit.OutfitData.Feet.CreateItemInstance();
+            Garments[GarmentSlot.Feet] = bodyGarment;
+        }
+    }
+
+    private void DestroyAllClothing()
+    {
+        Garments.Keys.ToList().ForEach(x => Garments[x] = null);
+    }
+
     private void OnValidate()
     {
-        Initialize();
-        SetSkin(_facing);
+        InitializeRenderersAndSlots();
+        UpdateSkin(Facing.Front);
+        InitializeDefaultGarments();
+        UpdateGarments(Facing.Front);
     }
 }
 

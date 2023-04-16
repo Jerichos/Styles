@@ -10,7 +10,7 @@ public class GarmentSO : ItemSO
 
     public GarmentData GarmentData => _garmentData;
 
-    public override Item CreateItemInstance()
+    public new Garment CreateItemInstance()
     {
         return new Garment(this);
     }
@@ -23,5 +23,17 @@ public struct GarmentData
     public Sprite Front;
     public Sprite Back;
     public Sprite Side;
+
+    public Sprite GetSprite(Facing facing)
+    {
+        return facing switch
+        {
+            Facing.Front => Front,
+            Facing.Back => Back,
+            Facing.Right => Side,
+            Facing.Left => Side,
+            _ => throw new ArgumentOutOfRangeException(nameof(facing), facing, null)
+        };
+    }
 }
 }
