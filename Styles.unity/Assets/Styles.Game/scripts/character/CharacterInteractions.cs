@@ -36,7 +36,9 @@ public class CharacterInteractions : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private readonly float _debugTTL = 1f;
+    [Space]
+    [Header("debug")]
+    [SerializeField] private float _gizmoTtl = 1f;
     private float _t;
     private Vector2 _rayOrigin;
     private Vector2 _hitOrigin;
@@ -63,7 +65,7 @@ public class CharacterInteractions : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (Time.realtimeSinceStartup > _t + _debugTTL)
+        if (Time.realtimeSinceStartup > _t + _gizmoTtl)
         {
             _isHit = false;
             return;
