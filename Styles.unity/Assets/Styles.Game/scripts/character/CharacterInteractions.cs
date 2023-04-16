@@ -8,19 +8,17 @@ namespace Styles.Game
 public class CharacterInteractions : MonoBehaviour
 {
     [SerializeField] private LayerMask _interactionLayers;
-    [SerializeField] private BoxCollider2D _collider;
+    [SerializeField] private Vector2 _originOffset;
     [SerializeField] private float _interactionDistance = 0.1f;
     
     public void TryInteract(Vector2 direction, GenericDelegate<IInteractable> callback)
     {
-        Vector2 rayOrigin = transform.position + (Vector3) _collider.offset;
-        Vector2 rayDirection = direction;
-        float rayLength = 1;
+        Vector2 rayOrigin = transform.position + (Vector3) _originOffset;
         
-        var hit = Physics2D.Raycast(rayOrigin, rayDirection, rayLength, _interactionLayers);
+        var hit = Physics2D.Raycast(rayOrigin, direction, _interactionDistance, _interactionLayers);
 
 #if UNITY_EDITOR
-        DebugRay(rayOrigin, rayDirection, rayLength);
+        DebugRay(rayOrigin, direction, _interactionDistance);
 #endif
 
         if (!hit)
@@ -33,6 +31,11 @@ public class CharacterInteractions : MonoBehaviour
 #if UNITY_EDITOR
         DebugHit(rayOrigin, hit);
 #endif
+    }
+
+    public Vector2 SetOriginOffset
+    {
+        set => _originOffset = value;
     }
 
 #if UNITY_EDITOR

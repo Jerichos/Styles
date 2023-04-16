@@ -49,6 +49,7 @@ public class CharacterManager : MonoBehaviour
     {
         if (direction != Vector2.zero)
         {
+            // TODO: diagonal facing should not be allowed
             _facing = direction;
         }
         
