@@ -1954,6 +1954,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1474907610156284936, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}
+      propertyPath: _skin
+      value: 
+      objectReference: {fileID: 1381103795}
     - target: {fileID: 1474907610156284941, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}
       propertyPath: m_Name
       value: Character Template

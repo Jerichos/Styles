@@ -32,7 +32,7 @@ public enum Facing
     Left
 }
 
-public class CharacterStyle : MonoBehaviour
+public class CharacterSkin : MonoBehaviour
 {
     [SerializeField] private CharacterSkinSO _characterSkin;
     [SerializeField] private Facing _facing;
@@ -94,6 +94,19 @@ public class CharacterStyle : MonoBehaviour
         BodyRenderers[BodySlot.HandR].sprite = _characterSkin.SkinData.HandR.GetSprite(facing);
         BodyRenderers[BodySlot.FootL].sprite = _characterSkin.SkinData.FootL.GetSprite(facing);
         BodyRenderers[BodySlot.FootR].sprite = _characterSkin.SkinData.FootR.GetSprite(facing);
+        
+        if(facing == Facing.Left)
+        {
+            var localScale = transform.localScale;
+            localScale.x = - Math.Abs(localScale.x);
+            transform.localScale = localScale;
+        }
+        else if (facing == Facing.Right)
+        {
+            var localScale = transform.localScale;
+            localScale.x = Math.Abs(localScale.x);
+            transform.localScale = localScale;
+        }
     }
 
     private void OnValidate()

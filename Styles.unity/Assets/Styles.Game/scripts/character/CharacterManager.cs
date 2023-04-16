@@ -1,4 +1,5 @@
-﻿using Styles.Game.scripts;
+﻿using Styles.Game.extensions;
+using Styles.Game.scripts;
 using UnityEngine;
 
 namespace Styles.Game
@@ -10,12 +11,26 @@ public class CharacterManager : MonoBehaviour
 {
     [SerializeField] private CharacterPhysics2D _physics;
     [SerializeField] private CharacterInteractions _interactions;
+    [SerializeField] private CharacterSkin _skin;
 
-    private Vector2 _facing;
-    public Vector2 Facing => _facing;
+    private Facing _facing;
+    public Facing Facing
+    {
+        get => _facing;
+        set
+        {
+            if (_facing == value)
+                return;
+
+            _facing = value;
+            _skin.SetSkin(_facing);
+        }
+    }
+    
     
     public CharacterPhysics2D Physics => _physics;
     public CharacterInteractions Interactions => _interactions;
+    public CharacterSkin Skin => _skin;
     
     private void OnValidate()
     {
@@ -37,7 +52,7 @@ public class CharacterManager : MonoBehaviour
 
     public void Interact()
     {
-        _interactions.TryInteract(_facing, OnInteraction);
+        _interactions.TryInteract(_facing.GetDirection(), OnInteraction);
     }
 
     private void OnInteraction(IInteractable value)
@@ -49,8 +64,7 @@ public class CharacterManager : MonoBehaviour
     {
         if (direction != Vector2.zero)
         {
-            // TODO: diagonal facing should not be allowed
-            _facing = direction;
+            Facing = direction.GetFacing();
         }
         
         _physics.Move(direction);
