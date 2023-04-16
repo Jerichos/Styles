@@ -51,7 +51,6 @@ public class InventoryUI : UIPanel
                 newSlot.transform.localScale = Vector3.one;
                 newSlot.InitSlot(i);
                 _uiSlots[i] = newSlot;
-                Debug.Log("add ui slot");
             }
         }
     }

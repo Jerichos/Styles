@@ -10,7 +10,7 @@ public class ItemSO : ScriptableObject
 
     public ItemData ItemData => _itemData;
     
-    public Item CreateItemInstance()
+    public virtual Item CreateItemInstance()
     {
         return new Item(this);
     }

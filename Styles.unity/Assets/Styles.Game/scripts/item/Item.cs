@@ -5,7 +5,7 @@ namespace Styles.Game
 [Serializable]
 public class Item
 {
-    private ItemSO _itemSO;
+    protected ItemSO _itemSO;
 
     public ItemSO ItemSo
     {
