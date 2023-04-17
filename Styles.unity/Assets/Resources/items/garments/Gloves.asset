@@ -9,15 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 286bf4da9b914eb18592d4b490afdf10, type: 3}
+  m_Script: {fileID: 11500000, guid: e35320c67f1a4914a1d70468412638e3, type: 3}
   m_Name: Gloves
   m_EditorClassIdentifier: 
   _itemData:
-    Icon: {fileID: -1529612126, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
-    Name: Pinky Alien
-    Description: It does not fit with everyhing.
+    Icon: {fileID: 1934552337, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    Name: Gloves
+    Description: Does not fit with everyhing!
   _garmentData:
-    Slot: 0
-    Front: {fileID: 1883384561, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
-    Back: {fileID: -488922850, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
-    Side: {fileID: -1529612126, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    Slot: 2
+    FrontLeft: {fileID: 1934552337, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    BackLeft: {fileID: 314277026, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    SideLeft: {fileID: -930121332, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    FrontRight: {fileID: 1934552337, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    BackRight: {fileID: 314277026, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    SideRight: {fileID: -930121332, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}

@@ -9,7 +9,7 @@ public class GarmentSO : ItemSO
     [SerializeField] private GarmentData _garmentData;
 
     public GarmentData GarmentData => _garmentData;
-
+    
     public new Garment CreateItemInstance()
     {
         return new Garment(this);
@@ -17,13 +17,13 @@ public class GarmentSO : ItemSO
 }
 
 [Serializable]
-public struct GarmentData
+public partial struct GarmentData
 {
     public GarmentSlot Slot;
     public Sprite Front;
     public Sprite Back;
     public Sprite Side;
-
+    
     public Sprite GetSprite(Facing facing)
     {
         return facing switch

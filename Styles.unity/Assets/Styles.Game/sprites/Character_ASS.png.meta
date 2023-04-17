@@ -376,6 +376,132 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Character_ASS_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 66
+        height: 86
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5e1be4d79738f84ea6c4fc604482947
+      internalID: -2001272232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character_ASS_14
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 300
+        width: 66
+        height: 86
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a7560360588b5246b514498ca561106
+      internalID: 591023720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character_ASS_15
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 300
+        width: 66
+        height: 86
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cd6c05a29cce8149b686c8d5cd2745e
+      internalID: -181642742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character_ASS_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 249
+        width: 29
+        height: 51
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee1669c9cd2c0b641ab11d06792fd540
+      internalID: 32109712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character_ASS_17
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 249
+        width: 29
+        height: 51
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba206acfab845ef47b400d9b9b57ca21
+      internalID: -1988108585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character_ASS_18
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 249
+        width: 29
+        height: 51
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2477bd96e27531d49a85688f6fa0e26b
+      internalID: -188606817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -392,14 +518,20 @@ TextureImporter:
       Character_ASS_1: -1619515390
       Character_ASS_6: -718768372
       Character_ASS_8: -488922850
+      Character_ASS_13: -2001272232
+      Character_ASS_18: -188606817
       Character_ASS_5: -515450094
       Character_ASS_7: 1883384561
       Character_ASS_9: -1529612126
       Character_ASS_12: -930121332
+      Character_ASS_14: 591023720
+      Character_ASS_16: 32109712
       Character_ASS_3: 1678718126
       Character_ASS_2: 1024737833
       Character_ASS_0: 667583660
       Character_ASS_10: 1934552337
+      Character_ASS_17: -1988108585
+      Character_ASS_15: -181642742
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

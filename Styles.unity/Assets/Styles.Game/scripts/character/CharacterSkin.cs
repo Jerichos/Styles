@@ -37,7 +37,6 @@ public class CharacterSkin : MonoBehaviour
 {
     [SerializeField] private CharacterSkinSO _characterSkin;
     [SerializeField] private OutfitSO _defaultOutfit;
-    [SerializeField] private Facing _facing;
     
     [Header("body renderers")]
     [SerializeField] private SpriteRenderer _head;
@@ -56,14 +55,14 @@ public class CharacterSkin : MonoBehaviour
     [SerializeField] private SpriteRenderer _footGarmentR;
     
     private readonly Dictionary<BodySlot, SpriteRenderer> BodyRenderers = new();
-    private readonly Dictionary<GarmentSlot, SpriteRenderer> GarmentRenderers = new();
+    private readonly Dictionary<GarmentSlot, SpriteRenderer[]> GarmentRenderers = new();
     private readonly Dictionary<GarmentSlot, Garment> Garments = new();
 
     private void Awake()
     {
         InitializeRenderersAndSlots();
         UpdateSkin(Facing.Front);
-        InitializeDefaultGarments();
+        InitializeDefaultOutfit();
         UpdateGarments(Facing.Front);
     }
 
@@ -86,15 +85,15 @@ public class CharacterSkin : MonoBehaviour
         // initialize garment renderers
         if (!GarmentRenderers.ContainsKey(GarmentSlot.Head))
         {
-            GarmentRenderers.Add(GarmentSlot.Head, _headGarment);
+            GarmentRenderers.Add(GarmentSlot.Head, new []{_headGarment});
             Debug.Log("headGarment renderer added");
         }
         if(!GarmentRenderers.ContainsKey(GarmentSlot.Body))
-            GarmentRenderers.Add(GarmentSlot.Body, _bodyGarment);
+            GarmentRenderers.Add(GarmentSlot.Body, new []{_bodyGarment});
         if (!GarmentRenderers.ContainsKey(GarmentSlot.Hands))
-            GarmentRenderers.Add(GarmentSlot.Hands, _handGarmentL);
+            GarmentRenderers.Add(GarmentSlot.Hands, new []{_handGarmentL, _handGarmentR});
         if(!GarmentRenderers.ContainsKey(GarmentSlot.Feet))
-            GarmentRenderers.Add(GarmentSlot.Feet, _footGarmentL);
+            GarmentRenderers.Add(GarmentSlot.Feet, new []{_footGarmentL, _footGarmentR});
         
         // initialize garment slots
         if(!Garments.ContainsKey(GarmentSlot.Head))
@@ -151,7 +150,7 @@ public class CharacterSkin : MonoBehaviour
                 continue;
             }
             
-            if (!GarmentRenderers[garment.Key])
+            if (!GarmentRenderers[garment.Key][0])
             {
                 Debug.LogError($"missing SpriteRenderer in GarmentRenderers of slot {garment.Key.ToString()}");
                 continue;
@@ -159,19 +158,42 @@ public class CharacterSkin : MonoBehaviour
             
             if (garment.Value == null)
             {
-                Debug.Log("garment not set");
-                GarmentRenderers[garment.Key].sprite = null;
-                GarmentRenderers[garment.Key].gameObject.SetActive(false);
+                foreach (var renderers in GarmentRenderers[garment.Key])
+                {
+                    renderers.sprite = null;
+                    renderers.gameObject.SetActive(false);
+                }
                 continue;
             }
 
-            GarmentRenderers[garment.Key].gameObject.SetActive(true);
-            Debug.Log(garment.Value.ItemSo.GarmentData.GetSprite(facing).ToString());
-            GarmentRenderers[garment.Key].sprite = garment.Value.ItemSo.GarmentData.GetSprite(facing);
+            if (garment.Value.ItemSo is GarmentSO garmentSO)
+            {
+                GarmentRenderers[garment.Key][0].gameObject.SetActive(true);
+                GarmentRenderers[garment.Key][0].sprite = garmentSO.GarmentData.GetSprite(facing);
+                Debug.Log(garmentSO.GarmentData.GetSprite(facing).ToString());
+            }
+            else if (garment.Value.ItemSo is GarmentDoubleVariantSO garmentDoubleSO)
+            {
+                GarmentRenderers[garment.Key][0].gameObject.SetActive(true);
+                GarmentRenderers[garment.Key][0].sprite = garmentDoubleSO.GarmentData.GetLeftSprite(facing);
+                
+                // check if there is renderer for right variant sprite
+                if (GarmentRenderers[garment.Key].Length <= 1 || !GarmentRenderers[garment.Key][1])
+                {
+                    Debug.LogError($"missing right variant SpriteRenderer in GarmentRenderers of slot {garment.Key.ToString()}");
+                    continue;
+                }
+                
+                GarmentRenderers[garment.Key][1].gameObject.SetActive(true);
+                GarmentRenderers[garment.Key][1].sprite = garmentDoubleSO.GarmentData.GetRightSprite(facing);
+                
+                Debug.Log(garmentDoubleSO.GarmentData.GetLeftSprite(facing).ToString());
+                Debug.Log(garmentDoubleSO.GarmentData.GetRightSprite(facing).ToString());
+            }
         }
     }
 
-    private void InitializeDefaultGarments()
+    private void InitializeDefaultOutfit()
     {
         if (!_defaultOutfit)
         {
@@ -180,28 +202,24 @@ public class CharacterSkin : MonoBehaviour
             return;
         }
         
-        if (_defaultOutfit.OutfitData.Head != null)
+        foreach (GarmentSlot slot in Enum.GetValues(typeof(GarmentSlot)))
         {
-            var bodyGarment = _defaultOutfit.OutfitData.Head.CreateItemInstance();
-            Garments[GarmentSlot.Head] = bodyGarment;
-        }
-        
-        if (_defaultOutfit.OutfitData.Body != null)
-        {
-            var bodyGarment = _defaultOutfit.OutfitData.Body.CreateItemInstance();
-            Garments[GarmentSlot.Body] = bodyGarment;
-        }
-        
-        if (_defaultOutfit.OutfitData.Hands != null)
-        {
-            var bodyGarment = _defaultOutfit.OutfitData.Hands.CreateItemInstance();
-            Garments[GarmentSlot.Hands] = bodyGarment;
-        }
-        
-        if (_defaultOutfit.OutfitData.Feet != null)
-        {
-            var bodyGarment = _defaultOutfit.OutfitData.Feet.CreateItemInstance();
-            Garments[GarmentSlot.Feet] = bodyGarment;
+            Debug.Log($" set default {slot.ToString()}" );
+
+            if (!_defaultOutfit.GetPieceItemSO(slot))
+            {
+                Debug.Log($"there is no default outfit garment for slot {slot.ToString()}");
+                Garments[slot] = null;
+                continue;
+            }
+
+            if (!Garments.ContainsKey(slot))
+            {
+                Debug.LogError($"there is no key slot defined in Garments. {slot.ToString()}");
+                continue;
+            }
+            
+            Garments[slot] = _defaultOutfit.CreatePieceInstance(slot);
         }
     }
 
@@ -214,7 +232,7 @@ public class CharacterSkin : MonoBehaviour
     {
         InitializeRenderersAndSlots();
         UpdateSkin(Facing.Front);
-        InitializeDefaultGarments();
+        InitializeDefaultOutfit();
         UpdateGarments(Facing.Front);
     }
 }

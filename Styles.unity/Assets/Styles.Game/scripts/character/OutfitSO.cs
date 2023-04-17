@@ -7,10 +7,33 @@ namespace Styles.Game
 [CreateAssetMenu(fileName = "Outfit", menuName = "data/outfit", order = 0)]
 public class OutfitSO : ScriptableObject
 {
-    [SerializeField] private Sprite _sprite;
     [SerializeField] private OutfitData _outfitData;
 
     public OutfitData OutfitData => _outfitData;
+
+    public Garment CreatePieceInstance(GarmentSlot slot)
+    {
+        return slot switch
+        {
+            GarmentSlot.Head => _outfitData.Head.CreateItemInstance(),
+            GarmentSlot.Body => _outfitData.Body.CreateItemInstance(),
+            GarmentSlot.Hands => _outfitData.Hands.CreateItemInstance(),
+            GarmentSlot.Feet => _outfitData.Feet.CreateItemInstance(),
+            _ => throw new ArgumentOutOfRangeException(nameof(slot), slot, null)
+        };
+    }
+    
+    public ItemSO GetPieceItemSO(GarmentSlot slot)
+    {
+        return slot switch
+        {
+            GarmentSlot.Head => _outfitData.Head,
+            GarmentSlot.Body => _outfitData.Body,
+            GarmentSlot.Hands => _outfitData.Hands,
+            GarmentSlot.Feet => _outfitData.Feet,
+            _ => throw new ArgumentOutOfRangeException(nameof(slot), slot, null)
+        };
+    }
 
     private void OnValidate()
     {
@@ -45,7 +68,7 @@ public struct OutfitData
 {
     [FormerlySerializedAs("Hat")] public GarmentSO Head;
     public GarmentSO Body;
-    public GarmentSO Hands;
-    public GarmentSO Feet;
+    public GarmentDoubleVariantSO Hands;
+    public GarmentDoubleVariantSO Feet;
 }
 }
