@@ -143,13 +143,11 @@ public class Inventory : MonoBehaviour
             return;
         }
         
-        Debug.Log("slot is not empty");
         SlotUsedCallback?.Invoke(slotID, _slots[slotID], OnItemUsedCallback);
     }
 
     private void OnItemUsedCallback(InventorySlotCallback callback)
     {
-        Debug.Log("4 equip item");
         if (callback.ReturnCode == InventoryReturnCode.RemoveItem)
         {
             RemoveItem(callback.SlotID);

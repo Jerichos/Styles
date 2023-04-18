@@ -55,6 +55,7 @@ MonoBehaviour:
   _interactions: {fileID: 6736870134789130694}
   _skin: {fileID: 6421092579189059722}
   _inventory: {fileID: 9004251654313190882}
+  _wallet: {fileID: 0}
 --- !u!114 &1474907610156284937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,7 +590,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 835135185136476720, guid: eb6bed9eb59b5b2429d9d224c47e365b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.141
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 835135185136476720, guid: eb6bed9eb59b5b2429d9d224c47e365b, type: 3}
       propertyPath: m_LocalPosition.z

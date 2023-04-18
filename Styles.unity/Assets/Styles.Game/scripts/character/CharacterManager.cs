@@ -1,6 +1,7 @@
 ﻿using System;
 using Styles.Common;
 using Styles.Game.extensions;
+using Styles.Game.npc;
 using Styles.Game.scripts;
 using UnityEngine;
 
@@ -15,11 +16,13 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] private CharacterInteractions _interactions;
     [SerializeField] private CharacterSkin _skin;
     [SerializeField] private Inventory _inventory;
+    [SerializeField] private Wallet _wallet;
 
     public CharacterPhysics2D Physics => _physics;
     public CharacterInteractions Interactions => _interactions;
     public CharacterSkin Skin => _skin;
     public Inventory Inventory => _inventory;
+    public Wallet Wallet => _wallet;
     
     private Facing _facing;
     public Facing Facing
@@ -82,27 +85,39 @@ public class CharacterManager : MonoBehaviour
     private void OnSlotUsed(int slotID, InventorySlot slot, GenericDelegate<InventorySlotCallback> callback)
     {
         // if slot item is outfit piece, Equip it!
-        Debug.Log("1 on slot used");
         if (slot.Item is Garment garment)
         {
-            Debug.Log($"2 on slot used {slotID}");
             var previousItem = _skin.EquipItem(garment);
             callback?.Invoke(new InventorySlotCallback{SlotID = slotID, ReturnCode = InventoryReturnCode.RemoveItem, ReturningItem = previousItem});
         }
         else
         {
-            Debug.Log("is not garment?");
+            Debug.LogWarning("not handled item type");
         }
+    }
+    
+    private void OnItemPurchased(Item value)
+    {
+        _inventory.AddItem(value, OnAddToInventory);
+    }
+
+    private void OnAddToInventory(InventorySlotCallback value)
+    {
+        Debug.Log(value.ReturnCode.ToString());
     }
 
     private void OnEnable()
     {
         _inventory.SlotUsedCallback = OnSlotUsed;
+        _wallet.OnItemPurchased = OnItemPurchased;
     }
+
+    
 
     private void OnDisable()
     {
         _inventory.SlotUsedCallback = null;
+        _wallet.OnItemPurchased = null;
     }
 }
 }
