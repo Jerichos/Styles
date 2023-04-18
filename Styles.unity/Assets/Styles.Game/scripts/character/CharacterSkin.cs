@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Styles.Common;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -56,7 +57,11 @@ public class CharacterSkin : MonoBehaviour
     
     private readonly Dictionary<BodySlot, SpriteRenderer> BodyRenderers = new();
     private readonly Dictionary<GarmentSlot, SpriteRenderer[]> GarmentRenderers = new();
-    private readonly Dictionary<GarmentSlot, Garment> Garments = new();
+
+    // TODO: change Garments to outfit (more understandable)
+    public readonly Dictionary<GarmentSlot, Garment> Garments = new();
+    
+    public GenericDelegate<Dictionary<GarmentSlot, Garment>> EOutfitChanged;
 
     private void Awake()
     {
@@ -107,6 +112,8 @@ public class CharacterSkin : MonoBehaviour
         
         if(!Garments.ContainsKey(GarmentSlot.Feet))
             Garments.Add(GarmentSlot.Feet, null);
+        
+        EOutfitChanged?.Invoke(Garments);
     }
     
     public void UpdateSkin(Facing facing)
@@ -201,7 +208,7 @@ public class CharacterSkin : MonoBehaviour
             DestroyAllClothing();
             return;
         }
-        
+
         foreach (GarmentSlot slot in Enum.GetValues(typeof(GarmentSlot)))
         {
             Debug.Log($" set default {slot.ToString()}" );
@@ -221,11 +228,14 @@ public class CharacterSkin : MonoBehaviour
             
             Garments[slot] = _defaultOutfit.CreatePieceInstance(slot);
         }
+        
+        EOutfitChanged?.Invoke(Garments);
     }
 
     private void DestroyAllClothing()
     {
         Garments.Keys.ToList().ForEach(x => Garments[x] = null);
+        EOutfitChanged?.Invoke(Garments);
     }
 
     private void OnValidate()

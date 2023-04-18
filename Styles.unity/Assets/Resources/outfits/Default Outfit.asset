@@ -15,5 +15,5 @@ MonoBehaviour:
   _outfitData:
     Head: {fileID: 11400000, guid: 2f40f207d5ef91a43bed29e42cc89e02, type: 2}
     Body: {fileID: 11400000, guid: a2f13dde505a1be42b5bc6c25a58d1ce, type: 2}
-    Hands: {fileID: 11400000, guid: 5796aaee07056d74e8333700eea264d0, type: 2}
+    Hands: {fileID: 0}
     Feet: {fileID: 11400000, guid: 6f521dd272275914f94ee113564d3f54, type: 2}
