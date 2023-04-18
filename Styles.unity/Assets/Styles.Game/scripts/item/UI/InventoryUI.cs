@@ -1,7 +1,5 @@
-﻿using System;
-using Styles.Common;
+﻿using Styles.Common;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Styles.Game
 {
@@ -18,15 +16,32 @@ public class InventoryUI : UIPanel
     {
         Initialize();
     }
+    
+    private void OnSlotClicked(int value)
+    {
+        _inventory.UseItem(value, OnUseCallback);
+    }
+
+    private void OnUseCallback(InventorySlotCallback callback)
+    {
+        
+    }
 
     private void OnEnable()
     {
+        for (int i = 0; i < _uiSlots.Length; i++)
+            _uiSlots[i].ClickedCallback = OnSlotClicked;
+        
         _inventory.EInventoryChanged += OnInventoryChanged;
         OnInventoryChanged(_inventory.Slots);
     }
 
     private void OnDisable()
     {
+        // don't invoke click callbacks when InventoryUI is closed
+        for (int i = 0; i < _uiSlots.Length; i++)
+            _uiSlots[i].ClickedCallback = null;
+        
         _inventory.EInventoryChanged -= OnInventoryChanged;
     }
 
@@ -40,18 +55,22 @@ public class InventoryUI : UIPanel
         }
 
         _uiSlots = _panelSlots.GetComponentsInChildren<InventorySlotUI>();
+
         if (_uiSlots.Length != _inventory.Size)
         {
             DestroyUISlots();
             _uiSlots = new InventorySlotUI[_inventory.Size];
-
             for (int i = 0; i < _inventory.Size; i++)
             {
                 var newSlot = Instantiate(_slotPrefab, _panelSlots, true);
                 newSlot.transform.localScale = Vector3.one;
-                newSlot.InitSlot(i);
                 _uiSlots[i] = newSlot;
             }
+        }
+        
+        for (int i = 0; i < _uiSlots.Length; i++)
+        {
+            _uiSlots[i].SetSlotID(i);
         }
     }
 
@@ -64,7 +83,7 @@ public class InventoryUI : UIPanel
 #if UNITY_EDITOR
             DestroyImmediate(currentSlots[i].gameObject);
 #else
-                Destroy(currentSlots[i].gameObject);
+            Destroy(currentSlots[i].gameObject);
 #endif
         }
     }
@@ -79,14 +98,12 @@ public class InventoryUI : UIPanel
         Debug.Log("inventory changed");
         for (int i = 0; i < value.Length; i++)
         {
-            //Debug.Log($"{i} {(value[i].Item != null? value[i].Item.ItemSo.ItemData.Name : "empty")}");
-
             if (_uiSlots[i] == null)
             {
                 Debug.LogError("null");
             }
             
-            _uiSlots[i].UpdateSlot(value[i]);
+            _uiSlots[i].SetSlot(value[i]);
         }
     }
 

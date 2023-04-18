@@ -10,7 +10,8 @@ public enum InventoryReturnCode
 {
     ItemAdded,
     ItemRemoved,
-    InventoryFull
+    InventoryFull,
+    RemoveItem,
 }
 
 [DefaultExecutionOrder(-1)]
@@ -24,9 +25,8 @@ public class Inventory : MonoBehaviour
     
     public int Size => _size;
 
-    public GenericDelegate<InventorySlot[]> EInventoryChanged;
-    
-
+    public event GenericDelegate<InventorySlot[]> EInventoryChanged;
+    public GenericDelegate<int, InventorySlot, GenericDelegate<InventorySlotCallback>> SlotUsedCallback;
 
     private void Awake()
     {
@@ -68,10 +68,17 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(Item item, int slotID)
     {
+        if (!_slots[slotID].Empty)
+        {
+            Debug.Log($"slot {slotID} is not empty");
+            return;
+        }
+
+        _slots[slotID].Item = item;
         EInventoryChanged?.Invoke(_slots);
     }
 
-    public void AddItem(Item item, GenericDelegate<AddItemCallback> callback)
+    public void AddItem(Item item, GenericDelegate<InventorySlotCallback> callback)
     {
         for (int i = 0; i < _slots.Length; i++)
         {
@@ -79,21 +86,23 @@ public class Inventory : MonoBehaviour
                 continue;
             
             _slots[i].Item = item;
-            callback?.Invoke(new AddItemCallback { Item = item, ReturnCode = InventoryReturnCode.ItemAdded });
+            callback?.Invoke(new InventorySlotCallback { SlotID = i, ItemSlot = _slots[i], ReturnCode = InventoryReturnCode.ItemAdded });
             EInventoryChanged?.Invoke(_slots);
             Debug.Log("item added to inventory");
             return;
         }
         
         Debug.Log("inventory full");
-        callback?.Invoke(new AddItemCallback { Item = item, ReturnCode = InventoryReturnCode.InventoryFull });
+        callback?.Invoke(new InventorySlotCallback { ReturnCode = InventoryReturnCode.InventoryFull });
     }
 
     public Item RemoveItem(int slotID)
     {
+        Debug.Log($"5 RemoveItem {slotID}");
         if(_slots[slotID].Empty)
             return null;
 
+        Debug.Log("6 equip item");
         var item = _slots[slotID].Item;
         _slots[slotID].Item = null;
         _slots[slotID].Count = 0;
@@ -124,11 +133,38 @@ public class Inventory : MonoBehaviour
         
         EInventoryChanged?.Invoke(_slots);
     }
+
+    public void UseItem(int slotID, GenericDelegate<InventorySlotCallback> callback)
+    {
+        var itemSlot = Slots[slotID];
+        if (itemSlot.Empty)
+        {
+            Debug.Log($"slot is empty {slotID}");
+            return;
+        }
+        
+        Debug.Log("slot is not empty");
+        SlotUsedCallback?.Invoke(slotID, _slots[slotID], OnItemUsedCallback);
+    }
+
+    private void OnItemUsedCallback(InventorySlotCallback callback)
+    {
+        Debug.Log("4 equip item");
+        if (callback.ReturnCode == InventoryReturnCode.RemoveItem)
+        {
+            RemoveItem(callback.SlotID);
+            
+            if(callback.ReturningItem != null)
+                AddItem(callback.ReturningItem, callback.SlotID);
+        }
+    }
 }
 
-public struct AddItemCallback
+public struct InventorySlotCallback
 {
-    public Item Item;
+    public int SlotID;
+    public InventorySlot ItemSlot;
+    public Item ReturningItem;
     public InventoryReturnCode ReturnCode;
 }
 

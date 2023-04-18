@@ -16,7 +16,7 @@ public class GarmentSO : ItemSO
     
     private static readonly GarmentSlot[] ALLOWED_SLOTS = {GarmentSlot.Head, GarmentSlot.Body};
     
-    public new Garment CreateItemInstance()
+    public override Item CreateItemInstance()
     {
         return new Garment(this);
     }

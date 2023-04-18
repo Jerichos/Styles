@@ -49,7 +49,7 @@ public class OutfitUI : UIPanel
         _character.AddItemToInventory(item, OnAddItemToInventory);
     }
 
-    private void OnAddItemToInventory(AddItemCallback callbackValue)
+    private void OnAddItemToInventory(InventorySlotCallback callbackValue)
     {
         if (callbackValue.ReturnCode != InventoryReturnCode.ItemAdded)
         {
@@ -57,7 +57,7 @@ public class OutfitUI : UIPanel
             return;
         }
         
-        if(callbackValue.Item is not Garment garment)
+        if(callbackValue.ItemSlot.Item is not Garment garment)
             return;
         
         Debug.Log(garment.ToString());

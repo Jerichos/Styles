@@ -13,7 +13,7 @@ public class OutfitSO : ScriptableObject
 
     public Garment CreatePieceInstance(GarmentSlot slot)
     {
-        return slot switch
+        var item = slot switch
         {
             GarmentSlot.Head => _outfitData.Head.CreateItemInstance(),
             GarmentSlot.Body => _outfitData.Body.CreateItemInstance(),
@@ -21,9 +21,11 @@ public class OutfitSO : ScriptableObject
             GarmentSlot.Feet => _outfitData.Feet.CreateItemInstance(),
             _ => throw new ArgumentOutOfRangeException(nameof(slot), slot, null)
         };
+
+        return (Garment) item;
     }
     
-    public ItemSO GetPieceItemSO(GarmentSlot slot)
+    public GarmentSO GetOutfitPieceSO(GarmentSlot slot)
     {
         return slot switch
         {

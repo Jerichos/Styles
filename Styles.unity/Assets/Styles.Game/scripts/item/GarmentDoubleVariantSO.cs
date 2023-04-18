@@ -13,11 +13,6 @@ public class GarmentDoubleVariantSO : GarmentSO
 
     private static readonly GarmentSlot[] ALLOWED_SLOTS = {GarmentSlot.Hands, GarmentSlot.Feet};
 
-    public new Garment CreateItemInstance()
-    {
-        return new Garment(this);
-    }
-
     private void OnValidate()
     {
         if (!ALLOWED_SLOTS.Contains(_slot))

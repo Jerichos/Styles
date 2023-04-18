@@ -36,7 +36,7 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    public void AddItemToInventory(Item item, GenericDelegate<AddItemCallback> callback)
+    public void AddItemToInventory(Item item, GenericDelegate<InventorySlotCallback> callback)
     {
         _inventory.AddItem(item, callback);
     }
@@ -77,6 +77,32 @@ public class CharacterManager : MonoBehaviour
         }
         
         _physics.Move(direction);
+    }
+    
+    private void OnSlotUsed(int slotID, InventorySlot slot, GenericDelegate<InventorySlotCallback> callback)
+    {
+        // if slot item is outfit piece, Equip it!
+        Debug.Log("1 on slot used");
+        if (slot.Item is Garment garment)
+        {
+            Debug.Log($"2 on slot used {slotID}");
+            var previousItem = _skin.EquipItem(garment);
+            callback?.Invoke(new InventorySlotCallback{SlotID = slotID, ReturnCode = InventoryReturnCode.RemoveItem, ReturningItem = previousItem});
+        }
+        else
+        {
+            Debug.Log("is not garment?");
+        }
+    }
+
+    private void OnEnable()
+    {
+        _inventory.SlotUsedCallback = OnSlotUsed;
+    }
+
+    private void OnDisable()
+    {
+        _inventory.SlotUsedCallback = null;
     }
 }
 }

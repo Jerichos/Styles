@@ -22,7 +22,7 @@ public class TestInventoryFeatures : MonoBehaviour
         _inventory.AddItem(randomItem.CreateItemInstance(), OnAddItemCallback);
     }
 
-    private void OnAddItemCallback(AddItemCallback value)
+    private void OnAddItemCallback(InventorySlotCallback value)
     {
         Debug.Log($"OnAddItemCallback {value.ReturnCode.ToString()}");
     }

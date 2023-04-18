@@ -1,32 +1,16 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-
-namespace Styles.Game
+﻿namespace Styles.Game
 {
-public class InventorySlotUI : MonoBehaviour
+public class InventorySlotUI : ItemSlotUI
 {
-    [SerializeField] private Image _iconImage;
-
-    [SerializeField] [HideInInspector] private int _slotID;
-
-    public void InitSlot(int id)
+    public void SetSlot(InventorySlot inventorySlot)
     {
-        _slotID = id;
-    }
-
-    public void UpdateSlot(InventorySlot itemSlot)
-    {
-        if (itemSlot.Empty)
+        if (inventorySlot.Empty)
         {
-            _iconImage.enabled = false;
+            SetSlot(null);
+            return;
         }
-        else
-        {
-            var item = itemSlot.Item;
-            
-            _iconImage.enabled = true;
-            _iconImage.sprite = item.ItemSO.ItemData.Icon;
-        }
+        
+        SetSlot(inventorySlot.Item.ItemSO.ItemData.Icon);
     }
 }
 }

@@ -92,10 +92,7 @@ public class CharacterSkin : MonoBehaviour
         
         // initialize garment renderers
         if (!GarmentRenderers.ContainsKey(GarmentSlot.Head))
-        {
             GarmentRenderers.Add(GarmentSlot.Head, new []{_headGarment});
-            Debug.Log("headGarment renderer added");
-        }
         if(!GarmentRenderers.ContainsKey(GarmentSlot.Body))
             GarmentRenderers.Add(GarmentSlot.Body, new []{_bodyGarment});
         if (!GarmentRenderers.ContainsKey(GarmentSlot.Hands))
@@ -228,18 +225,16 @@ public class CharacterSkin : MonoBehaviour
     {
         if (!_defaultOutfit)
         {
-            Debug.Log("default outfit not set");
+            Debug.LogWarning("default outfit not set. You character is naked!");
             DestroyAllClothing();
             return;
         }
 
         foreach (GarmentSlot slot in Enum.GetValues(typeof(GarmentSlot)))
         {
-            Debug.Log($" set default {slot.ToString()}" );
-
-            if (!_defaultOutfit.GetPieceItemSO(slot))
+            if (!_defaultOutfit.GetOutfitPieceSO(slot))
             {
-                Debug.Log($"there is no default outfit garment for slot {slot.ToString()}");
+                Debug.LogWarning($"there is no default outfit garment for slot {slot.ToString()}");
                 Garments[slot] = null;
                 continue;
             }
@@ -270,32 +265,14 @@ public class CharacterSkin : MonoBehaviour
         UpdateGarments(Facing.Front);
     }
 
-}
-
-[Serializable]
-public struct SkinData
-{
-    public BodySlot Slot;
-    public Sprite Front;
-    public Sprite Side;
-    public Sprite Back;
-}
-
-[Serializable]
-public struct BodyData
-{
-    public Sprite Head;
-    public Sprite Body;
-    public Sprite HandL;
-    public Sprite HandR;
-    public Sprite FootL;
-    public Sprite FootR;
-}
-
-[Serializable]
-public struct ClothData
-{
-    public Sprite Hat;
-    public Sprite Top;
+    public Garment EquipItem(Garment garment)
+    {
+        Debug.Log("3 equip item");
+        var previousGarment = Garments[garment.ItemSO.Slot];
+        Garments[garment.ItemSO.Slot] = garment;
+        UpdateGarmentSlot(garment.ItemSO.Slot, _facing);
+        EOutfitChanged?.Invoke(Garments);
+        return previousGarment;
+    }
 }
 }
