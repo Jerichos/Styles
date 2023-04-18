@@ -13,8 +13,13 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
 
     public int SlotID => _slotID;
 
-    public GenericDelegate<int> ESlotClicked;
+    public GenericDelegate<int> ClickedCallback;
 
+    public void SetSlotID(int slotID)
+    {
+        _slotID = slotID;
+    }
+    
     public virtual void SetSlot(Sprite iconSprite)
     {
         if (iconSprite == null)
@@ -31,7 +36,7 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log($"slot clicked {_slotID} {eventData.button}");
-        ESlotClicked?.Invoke(_slotID);
+        ClickedCallback?.Invoke(_slotID);
     }
 }
 }

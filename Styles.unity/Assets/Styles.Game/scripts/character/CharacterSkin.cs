@@ -61,8 +61,11 @@ public class CharacterSkin : MonoBehaviour
     // TODO: change Garments to outfit (more understandable)
     public readonly Dictionary<GarmentSlot, Garment> Garments = new();
     
-    public GenericDelegate<Dictionary<GarmentSlot, Garment>> EOutfitChanged;
+    public event GenericDelegate<Dictionary<GarmentSlot, Garment>> EOutfitChanged;
+    public event GenericDelegate<Garment> EItemUnquiped;
 
+    private Facing _facing;
+    
     private void Awake()
     {
         InitializeRenderersAndSlots();
@@ -118,6 +121,8 @@ public class CharacterSkin : MonoBehaviour
     
     public void UpdateSkin(Facing facing)
     {
+        _facing = facing;
+        
         if (!_characterSkin)
         {
             Debug.LogError("characterSkin was not set");
@@ -147,56 +152,80 @@ public class CharacterSkin : MonoBehaviour
 
     public void UpdateGarments(Facing facing)
     {
+        _facing = facing;
+        
         foreach (var garment in Garments)
         {
-            Debug.Log("update garment of slot " + garment.Key.ToString());
-            
-            if (!GarmentRenderers.ContainsKey(garment.Key))
-            {
-                Debug.LogError($"missing slot key in GarmentRenderers of slot {garment.Key.ToString()}");
-                continue;
-            }
-            
-            if (!GarmentRenderers[garment.Key][0])
-            {
-                Debug.LogError($"missing SpriteRenderer in GarmentRenderers of slot {garment.Key.ToString()}");
-                continue;
-            }
-            
-            if (garment.Value == null)
-            {
-                foreach (var renderers in GarmentRenderers[garment.Key])
-                {
-                    renderers.sprite = null;
-                    renderers.gameObject.SetActive(false);
-                }
-                continue;
-            }
+            UpdateGarmentSlot(garment.Key, facing);
+        }
+    }
+    
+    public void Unequip(GarmentSlot slot)
+    {
+        Debug.Log($"unequip {slot}");
+        if (Garments[slot] == null)
+        {
+            Debug.Log("nothing to unquip");
+            return;
+        }
+        
+        var garment = Garments[slot];
+        Garments[slot] = null;
+        UpdateGarmentSlot(slot, _facing);
+        EItemUnquiped?.Invoke(garment);
+    }
 
-            if (garment.Value.ItemSo is GarmentSO garmentSO)
+    private void UpdateGarmentSlot(GarmentSlot slot, Facing facing)
+    {
+        _facing = facing;
+        
+        if (!GarmentRenderers.ContainsKey(slot))
+        {
+            Debug.LogError($"missing slot key in GarmentRenderers of slot {slot.ToString()}");
+            return;
+        }
+        
+        if (!GarmentRenderers[slot][0])
+        {
+            Debug.LogError($"missing SpriteRenderer in GarmentRenderers of slot {slot.ToString()}");
+            return;
+        }
+
+        var garment = Garments[slot];
+        
+        if (garment == null)
+        {
+            foreach (var renderers in GarmentRenderers[slot])
             {
-                GarmentRenderers[garment.Key][0].gameObject.SetActive(true);
-                GarmentRenderers[garment.Key][0].sprite = garmentSO.GarmentData.GetSprite(facing);
-                Debug.Log(garmentSO.GarmentData.GetSprite(facing).ToString());
+                renderers.sprite = null;
+                renderers.gameObject.SetActive(false);
             }
-            else if (garment.Value.ItemSo is GarmentDoubleVariantSO garmentDoubleSO)
+            return;
+        }
+
+        if (garment.ItemSo is GarmentSO garmentSO)
+        {
+            GarmentRenderers[slot][0].gameObject.SetActive(true);
+            GarmentRenderers[slot][0].sprite = garmentSO.GarmentData.GetSprite(facing);
+            Debug.Log(garmentSO.GarmentData.GetSprite(facing).ToString());
+        }
+        else if (garment.ItemSo is GarmentDoubleVariantSO garmentDoubleSO)
+        {
+            GarmentRenderers[slot][0].gameObject.SetActive(true);
+            GarmentRenderers[slot][0].sprite = garmentDoubleSO.GarmentData.GetLeftSprite(facing);
+            
+            // check if there is renderer for right variant sprite
+            if (GarmentRenderers[slot].Length <= 1 || !GarmentRenderers[slot][1])
             {
-                GarmentRenderers[garment.Key][0].gameObject.SetActive(true);
-                GarmentRenderers[garment.Key][0].sprite = garmentDoubleSO.GarmentData.GetLeftSprite(facing);
-                
-                // check if there is renderer for right variant sprite
-                if (GarmentRenderers[garment.Key].Length <= 1 || !GarmentRenderers[garment.Key][1])
-                {
-                    Debug.LogError($"missing right variant SpriteRenderer in GarmentRenderers of slot {garment.Key.ToString()}");
-                    continue;
-                }
-                
-                GarmentRenderers[garment.Key][1].gameObject.SetActive(true);
-                GarmentRenderers[garment.Key][1].sprite = garmentDoubleSO.GarmentData.GetRightSprite(facing);
-                
-                Debug.Log(garmentDoubleSO.GarmentData.GetLeftSprite(facing).ToString());
-                Debug.Log(garmentDoubleSO.GarmentData.GetRightSprite(facing).ToString());
+                Debug.LogError($"missing right variant SpriteRenderer in GarmentRenderers of slot {slot.ToString()}");
+                return;
             }
+            
+            GarmentRenderers[slot][1].gameObject.SetActive(true);
+            GarmentRenderers[slot][1].sprite = garmentDoubleSO.GarmentData.GetRightSprite(facing);
+            
+            Debug.Log(garmentDoubleSO.GarmentData.GetLeftSprite(facing).ToString());
+            Debug.Log(garmentDoubleSO.GarmentData.GetRightSprite(facing).ToString());
         }
     }
 
@@ -245,6 +274,7 @@ public class CharacterSkin : MonoBehaviour
         InitializeDefaultOutfit();
         UpdateGarments(Facing.Front);
     }
+
 }
 
 [Serializable]

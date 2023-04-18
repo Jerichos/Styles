@@ -10,7 +10,13 @@ public class OutfitUI : UIPanel
 {
     [SerializeField] private CharacterSkin _characterSkin;
     [SerializeField] private OutfitSlotUI[] _outfitSlots;
-    
+
+    private void Awake()
+    {
+        for (int i = 0; i < _outfitSlots.Length; i++)
+            _outfitSlots[i].SetSlotID(i);
+    }
+
     private void OnOutfitChanged(Dictionary<GarmentSlot, Garment> outfit)
     {
         Debug.Log("OnOutFitChanged");
@@ -28,14 +34,15 @@ public class OutfitUI : UIPanel
     
     private void OnSlotClicked(int slotID)
     {
-        throw new NotImplementedException();
+        // unequip item
+        _characterSkin.Unequip(_outfitSlots[slotID].Slot);
     }
     
     private void SubscribeToSlots()
     {
         for (int i = 0; i < _outfitSlots.Length; i++)
         {
-            _outfitSlots[i].ESlotClicked += OnSlotClicked;
+            _outfitSlots[i].ClickedCallback = OnSlotClicked;
         }
     }
 
@@ -43,7 +50,7 @@ public class OutfitUI : UIPanel
     {
         for (int i = 0; i < _outfitSlots.Length; i++)
         {
-            _outfitSlots[i].ESlotClicked -= OnSlotClicked;
+            _outfitSlots[i].ClickedCallback = OnSlotClicked;
         }
     }
     

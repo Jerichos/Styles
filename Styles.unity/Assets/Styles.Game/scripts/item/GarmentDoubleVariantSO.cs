@@ -7,9 +7,9 @@ namespace Styles.Game
 [CreateAssetMenu(fileName = "Garment", menuName = "data/Garment", order = 0)]
 public class GarmentDoubleVariantSO : ItemSO
 {
-    [SerializeField] private GarmentDoubleVariantData _garmentData;
+    [SerializeField] private new GarmentDoubleVariantData _garmentData;
 
-    public GarmentDoubleVariantData GarmentData => _garmentData;
+    public new GarmentDoubleVariantData GarmentData => _garmentData;
 
     public static readonly GarmentSlot[] ALLOWED_GARMENT_SLOTS = {GarmentSlot.Hands, GarmentSlot.Feet};
 
