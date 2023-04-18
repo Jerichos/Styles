@@ -18,32 +18,49 @@ public class OutfitUI : UIPanel
         {
             if (outfit[_outfitSlots[i].Slot] == null)
             {
-                _outfitSlots[i].Image.enabled = false;
+                _outfitSlots[i].SetSlot(null);
                 continue;
             }
             
-            _outfitSlots[i].Image.sprite = outfit[_outfitSlots[i].Slot].ItemSo.ItemData.Icon;
-            _outfitSlots[i].Image.enabled = true;
+            _outfitSlots[i].SetSlot(outfit[_outfitSlots[i].Slot].ItemSo.ItemData.Icon);
+        }
+    }
+    
+    private void OnSlotClicked(int slotID)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private void SubscribeToSlots()
+    {
+        for (int i = 0; i < _outfitSlots.Length; i++)
+        {
+            _outfitSlots[i].ESlotClicked += OnSlotClicked;
+        }
+    }
+
+    private void UnsubscribeFromSlots()
+    {
+        for (int i = 0; i < _outfitSlots.Length; i++)
+        {
+            _outfitSlots[i].ESlotClicked -= OnSlotClicked;
         }
     }
     
     private void OnEnable()
     {
+        SubscribeToSlots();
+        
         _characterSkin.EOutfitChanged += OnOutfitChanged;
         OnOutfitChanged(_characterSkin.Garments);
     }
 
     private void OnDisable()
     {
+        UnsubscribeFromSlots();
+        
         _characterSkin.EOutfitChanged -= OnOutfitChanged;
         OnOutfitChanged(_characterSkin.Garments);
     }
-}
-
-[Serializable]
-public struct OutfitSlotUI
-{
-    public Image Image;
-    public GarmentSlot Slot;
 }
 }
