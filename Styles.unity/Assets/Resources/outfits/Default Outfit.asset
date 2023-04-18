@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9342776811e4c7a9c9c81fddf3ea08e, type: 3}
   m_Name: Default Outfit
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 1024737833, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
   _outfitData:
     Head: {fileID: 11400000, guid: 2f40f207d5ef91a43bed29e42cc89e02, type: 2}
     Body: {fileID: 11400000, guid: a2f13dde505a1be42b5bc6c25a58d1ce, type: 2}
     Hands: {fileID: 11400000, guid: 5796aaee07056d74e8333700eea264d0, type: 2}
-    Feet: {fileID: 0}
+    Feet: {fileID: 11400000, guid: 6f521dd272275914f94ee113564d3f54, type: 2}

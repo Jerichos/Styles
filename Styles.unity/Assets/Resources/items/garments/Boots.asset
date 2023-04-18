@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Boots
   m_EditorClassIdentifier: 
   _itemData:
-    Icon: {fileID: 0}
-    Name: 
-    Description: 
+    Icon: {fileID: 32109712, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    Name: Pinky Boots
+    Description: They fit well with pinky alient hat!
   _garmentData:
-    Slot: 0
-    FrontLeft: {fileID: 0}
-    BackLeft: {fileID: 0}
-    SideLeft: {fileID: 0}
-    FrontRight: {fileID: 0}
-    BackRight: {fileID: 0}
-    SideRight: {fileID: 0}
+    Slot: 3
+    FrontLeft: {fileID: 32109712, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    BackLeft: {fileID: -1988108585, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    SideLeft: {fileID: -188606817, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    FrontRight: {fileID: 32109712, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    BackRight: {fileID: -1988108585, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    SideRight: {fileID: -188606817, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
