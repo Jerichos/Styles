@@ -25,6 +25,8 @@ public class Inventory : MonoBehaviour
     public int Size => _size;
 
     public GenericDelegate<InventorySlot[]> EInventoryChanged;
+    
+
 
     private void Awake()
     {
@@ -69,7 +71,7 @@ public class Inventory : MonoBehaviour
         EInventoryChanged?.Invoke(_slots);
     }
 
-    public void AddItem(Item item, GenericDelegate<InventoryReturnCode> callback)
+    public void AddItem(Item item, GenericDelegate<AddItemCallback> callback)
     {
         for (int i = 0; i < _slots.Length; i++)
         {
@@ -77,12 +79,14 @@ public class Inventory : MonoBehaviour
                 continue;
             
             _slots[i].Item = item;
-            callback?.Invoke(InventoryReturnCode.ItemAdded);
+            callback?.Invoke(new AddItemCallback { Item = item, ReturnCode = InventoryReturnCode.ItemAdded });
             EInventoryChanged?.Invoke(_slots);
+            Debug.Log("item added to inventory");
             return;
         }
         
-        callback?.Invoke(InventoryReturnCode.InventoryFull);
+        Debug.Log("inventory full");
+        callback?.Invoke(new AddItemCallback { Item = item, ReturnCode = InventoryReturnCode.InventoryFull });
     }
 
     public Item RemoveItem(int slotID)
@@ -120,6 +124,12 @@ public class Inventory : MonoBehaviour
         
         EInventoryChanged?.Invoke(_slots);
     }
+}
+
+public struct AddItemCallback
+{
+    public Item Item;
+    public InventoryReturnCode ReturnCode;
 }
 
 [Serializable]

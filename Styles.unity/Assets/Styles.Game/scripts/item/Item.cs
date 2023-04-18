@@ -7,7 +7,7 @@ public class Item
 {
     protected ItemSO _itemSO;
 
-    public ItemSO ItemSo
+    public ItemSO ItemSO
     {
         get => _itemSO;
         set => _itemSO = value;

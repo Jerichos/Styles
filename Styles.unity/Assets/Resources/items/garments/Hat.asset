@@ -16,8 +16,8 @@ MonoBehaviour:
     Icon: {fileID: -1529612126, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
     Name: Pinky Alien
     Description: It does not fit with everyhing.
-  _garmentData:
-    Slot: 0
+  _slot: 0
+  _spriteVariants:
     Front: {fileID: 1883384561, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
     Back: {fileID: -488922850, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
     Side: {fileID: -1529612126, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}

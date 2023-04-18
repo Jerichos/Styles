@@ -172,7 +172,7 @@ public class CharacterSkin : MonoBehaviour
         var garment = Garments[slot];
         Garments[slot] = null;
         UpdateGarmentSlot(slot, _facing);
-        EItemUnquiped?.Invoke(garment);
+        EOutfitChanged?.Invoke(Garments);
     }
 
     private void UpdateGarmentSlot(GarmentSlot slot, Facing facing)
@@ -200,20 +200,18 @@ public class CharacterSkin : MonoBehaviour
                 renderers.sprite = null;
                 renderers.gameObject.SetActive(false);
             }
+            
             return;
         }
 
-        if (garment.ItemSo is GarmentSO garmentSO)
+        if (((Item) garment).ItemSO is GarmentSO garmentSO)
         {
             GarmentRenderers[slot][0].gameObject.SetActive(true);
-            GarmentRenderers[slot][0].sprite = garmentSO.GarmentData.GetSprite(facing);
-            Debug.Log(garmentSO.GarmentData.GetSprite(facing).ToString());
+            GarmentRenderers[slot][0].sprite = garmentSO.SpriteVariants.GetSprite(facing);
         }
-        else if (garment.ItemSo is GarmentDoubleVariantSO garmentDoubleSO)
+        
+        if (((Item) garment).ItemSO is GarmentDoubleVariantSO garmentDoubleSO)
         {
-            GarmentRenderers[slot][0].gameObject.SetActive(true);
-            GarmentRenderers[slot][0].sprite = garmentDoubleSO.GarmentData.GetLeftSprite(facing);
-            
             // check if there is renderer for right variant sprite
             if (GarmentRenderers[slot].Length <= 1 || !GarmentRenderers[slot][1])
             {
@@ -222,10 +220,7 @@ public class CharacterSkin : MonoBehaviour
             }
             
             GarmentRenderers[slot][1].gameObject.SetActive(true);
-            GarmentRenderers[slot][1].sprite = garmentDoubleSO.GarmentData.GetRightSprite(facing);
-            
-            Debug.Log(garmentDoubleSO.GarmentData.GetLeftSprite(facing).ToString());
-            Debug.Log(garmentDoubleSO.GarmentData.GetRightSprite(facing).ToString());
+            GarmentRenderers[slot][1].sprite = garmentDoubleSO.RightSpriteVariants.GetSprite(facing);
         }
     }
 

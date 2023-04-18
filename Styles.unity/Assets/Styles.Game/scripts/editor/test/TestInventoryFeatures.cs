@@ -22,9 +22,9 @@ public class TestInventoryFeatures : MonoBehaviour
         _inventory.AddItem(randomItem.CreateItemInstance(), OnAddItemCallback);
     }
 
-    private void OnAddItemCallback(InventoryReturnCode value)
+    private void OnAddItemCallback(AddItemCallback value)
     {
-        Debug.Log($"OnAddItemCallback {value.ToString()}");
+        Debug.Log($"OnAddItemCallback {value.ReturnCode.ToString()}");
     }
 
     public void RemoveItem(int id)

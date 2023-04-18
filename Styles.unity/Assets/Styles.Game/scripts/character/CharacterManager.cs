@@ -1,4 +1,6 @@
-﻿using Styles.Game.extensions;
+﻿using System;
+using Styles.Common;
+using Styles.Game.extensions;
 using Styles.Game.scripts;
 using UnityEngine;
 
@@ -12,7 +14,13 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] private CharacterPhysics2D _physics;
     [SerializeField] private CharacterInteractions _interactions;
     [SerializeField] private CharacterSkin _skin;
+    [SerializeField] private Inventory _inventory;
 
+    public CharacterPhysics2D Physics => _physics;
+    public CharacterInteractions Interactions => _interactions;
+    public CharacterSkin Skin => _skin;
+    public Inventory Inventory => _inventory;
+    
     private Facing _facing;
     public Facing Facing
     {
@@ -27,11 +35,11 @@ public class CharacterManager : MonoBehaviour
             _skin.UpdateGarments(_facing);
         }
     }
-    
-    
-    public CharacterPhysics2D Physics => _physics;
-    public CharacterInteractions Interactions => _interactions;
-    public CharacterSkin Skin => _skin;
+
+    public void AddItemToInventory(Item item, GenericDelegate<AddItemCallback> callback)
+    {
+        _inventory.AddItem(item, callback);
+    }
     
     private void OnValidate()
     {

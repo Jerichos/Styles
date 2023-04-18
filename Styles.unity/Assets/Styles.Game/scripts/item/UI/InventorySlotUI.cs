@@ -25,7 +25,7 @@ public class InventorySlotUI : MonoBehaviour
             var item = itemSlot.Item;
             
             _iconImage.enabled = true;
-            _iconImage.sprite = item.ItemSo.ItemData.Icon;
+            _iconImage.sprite = item.ItemSO.ItemData.Icon;
         }
     }
 }

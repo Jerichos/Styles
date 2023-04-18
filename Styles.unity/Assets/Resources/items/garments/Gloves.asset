@@ -16,11 +16,12 @@ MonoBehaviour:
     Icon: {fileID: 1934552337, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
     Name: Gloves
     Description: Does not fit with everyhing!
-  _garmentData:
-    Slot: 2
-    FrontLeft: {fileID: 1934552337, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
-    BackLeft: {fileID: 314277026, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
-    SideLeft: {fileID: -930121332, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
-    FrontRight: {fileID: 1934552337, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
-    BackRight: {fileID: 314277026, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
-    SideRight: {fileID: -930121332, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+  _slot: 2
+  _spriteVariants:
+    Front: {fileID: 1934552337, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    Back: {fileID: 314277026, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    Side: {fileID: -930121332, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+  _rightSpriteVariants:
+    Front: {fileID: 1934552337, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    Back: {fileID: 314277026, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}
+    Side: {fileID: -930121332, guid: 6b3868c1fc51d3a4586ee2f18e9c4453, type: 3}

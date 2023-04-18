@@ -8,6 +8,7 @@ namespace Styles.Game
 {
 public class OutfitUI : UIPanel
 {
+    [SerializeField] private CharacterManager _character;
     [SerializeField] private CharacterSkin _characterSkin;
     [SerializeField] private OutfitSlotUI[] _outfitSlots;
 
@@ -28,16 +29,44 @@ public class OutfitUI : UIPanel
                 continue;
             }
             
-            _outfitSlots[i].SetSlot(outfit[_outfitSlots[i].Slot].ItemSo.ItemData.Icon);
+            _outfitSlots[i].SetSlot(((Item) outfit[_outfitSlots[i].Slot]).ItemSO.ItemData.Icon);
         }
     }
     
     private void OnSlotClicked(int slotID)
     {
-        // unequip item
-        _characterSkin.Unequip(_outfitSlots[slotID].Slot);
+        var item = _characterSkin.Garments[_outfitSlots[slotID].Slot];
+        if(item == null)
+            return;
+        
+        if (!_character)
+        {
+            _characterSkin.Unequip(_outfitSlots[slotID].Slot);
+            return;
+        }
+
+        // if there is reference to a character try to add it to character's inventory
+        _character.AddItemToInventory(item, OnAddItemToInventory);
     }
-    
+
+    private void OnAddItemToInventory(AddItemCallback callbackValue)
+    {
+        if (callbackValue.ReturnCode != InventoryReturnCode.ItemAdded)
+        {
+            Debug.Log(callbackValue.ReturnCode);
+            return;
+        }
+        
+        if(callbackValue.Item is not Garment garment)
+            return;
+        
+        Debug.Log(garment.ToString());
+        Debug.Log(garment.ItemSO.ToString());
+        Debug.Log(garment.ItemSO.SpriteVariants);
+        
+        _characterSkin.Unequip(garment.ItemSO.Slot);
+    }
+
     private void SubscribeToSlots()
     {
         for (int i = 0; i < _outfitSlots.Length; i++)
