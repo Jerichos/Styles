@@ -55,7 +55,6 @@ public class ShopUI : UIPanel
 
     private void InitializeSlots(ShopItem[] value)
     {
-        Debug.LogError("initialize slots");
         // disable buttons which are not needed
         for (int i = value.Length; i < _itemSlots.Length; ++i)
         {
@@ -90,8 +89,6 @@ public class ShopUI : UIPanel
 
     private void RefreshUI(ShopItem[] value)
     {
-        Debug.LogError("refresh UI");
-            
         // update item slots
         for (int i = 0; i < _shop.ShopItems.Value.Length; ++i)
         {
@@ -118,6 +115,20 @@ public class ShopUI : UIPanel
     private void OnMoneyChanged(int value)
     {
         _moneyText.SetText(value + "$");
+        
+        // refresh ui in case you can/can't afford items
+        RefreshUI(_shop.ShopItems.Value);
+    }
+    
+    private void OnInventoryItemUsed(int itemID, InventorySlot inventorySlot, GenericDelegate<InventorySlotCallback> value3)
+    {
+        _shop.SellItem(_wallet, inventorySlot.Item, OnSellCallback);
+        value3?.Invoke(new InventorySlotCallback(){SlotID = itemID, ItemSlot = inventorySlot, ReturnCode = InventoryReturnCode.RemoveItem});
+    }
+
+    private void OnSellCallback(SellCallback value)
+    {
+        Debug.Log($"$OnSellCallback {value.ReturnCode}");
     }
 
     protected override void OnOpen()
@@ -132,6 +143,9 @@ public class ShopUI : UIPanel
         }
         
         _wallet.Money.EChanged += OnMoneyChanged;
+        _inventory.ESlotUsed += OnInventoryItemUsed;
+        _inventory.IsShopping.Value = true;
+            
         OnMoneyChanged(_wallet.Money.Value);
     }
 
@@ -144,6 +158,9 @@ public class ShopUI : UIPanel
             _itemSlots[i].ButtonBuy.onClick.RemoveAllListeners();
 
         _wallet.Money.EChanged -= OnMoneyChanged;
+        _inventory.ESlotUsed -= OnInventoryItemUsed;
+        _inventory.IsShopping.Value = false;
+        
         UnsubscribeFromShop(_shop);
     }
     

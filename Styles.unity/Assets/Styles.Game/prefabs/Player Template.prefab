@@ -96,6 +96,8 @@ MonoBehaviour:
     Count: 0
   - Item: {fileID: 0}
     Count: 0
+  IsShopping:
+    _value: 0
 --- !u!114 &1474907610156284943
 MonoBehaviour:
   m_ObjectHideFlags: 0

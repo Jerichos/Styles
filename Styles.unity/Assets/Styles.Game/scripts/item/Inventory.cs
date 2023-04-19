@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Styles.Common;
+using TMPro;
 using UnityEngine;
 
 namespace Styles.Game
@@ -19,18 +20,21 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField] private int _size = 6;
     [SerializeField] private ItemStack[] _defaultItems;
-
+    
     private InventorySlot[] _slots;
     public InventorySlot[] Slots => _slots;
     
     public int Size => _size;
 
     public event GenericDelegate<InventorySlot[]> EInventoryChanged;
-    public GenericDelegate<int, InventorySlot, GenericDelegate<InventorySlotCallback>> SlotUsedCallback;
+    public event GenericDelegate<int, InventorySlot, GenericDelegate<InventorySlotCallback>> ESlotUsed;
+
+    public SAttribute<bool> IsShopping;
 
     private void Awake()
     {
         _slots = new InventorySlot[_size];
+        IsShopping = false;
         
         for (int i = 0; i < _slots.Length; i++)
         {
@@ -143,7 +147,7 @@ public class Inventory : MonoBehaviour
             return;
         }
         
-        SlotUsedCallback?.Invoke(slotID, _slots[slotID], OnItemUsedCallback);
+        ESlotUsed?.Invoke(slotID, _slots[slotID], OnItemUsedCallback);
     }
 
     public bool IsInventoryFull()

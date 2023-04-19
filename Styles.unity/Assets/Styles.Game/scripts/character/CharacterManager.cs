@@ -88,8 +88,11 @@ public class CharacterManager : MonoBehaviour
         _physics.Move(direction);
     }
     
-    private void OnSlotUsed(int slotID, InventorySlot slot, GenericDelegate<InventorySlotCallback> callback)
+    private void OnESlotUsed(int slotID, InventorySlot slot, GenericDelegate<InventorySlotCallback> callback)
     {
+        if(_wallet.Shopping)
+            return;
+        
         // if slot item is outfit piece, Equip it!
         if (slot.Item is Garment garment)
         {
@@ -115,13 +118,13 @@ public class CharacterManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _inventory.SlotUsedCallback = OnSlotUsed;
+        _inventory.ESlotUsed += OnESlotUsed;
         _wallet.OnItemPurchased += OnItemPurchased;
     }
 
     private void OnDisable()
     {
-        _inventory.SlotUsedCallback = null;
+        _inventory.ESlotUsed -= OnESlotUsed;
         _wallet.OnItemPurchased -= OnItemPurchased;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Styles.Common;
+using TMPro;
 using UnityEngine;
 
 namespace Styles.Game
@@ -11,7 +12,8 @@ public class InventoryUI : UIPanel
     [SerializeField] private Transform _panelSlots;
 
     [SerializeField] private InventorySlotUI[] _uiSlots;
-
+    [SerializeField] private TMP_Text _shoppingInfoText;
+    
     private void Awake()
     {
         Initialize();
@@ -24,16 +26,23 @@ public class InventoryUI : UIPanel
 
     private void OnUseCallback(InventorySlotCallback callback)
     {
-        
+        Debug.Log("OnUseCallback add fancy UI animation or whatever");
+    }
+    
+    private void OnIsShopping(bool value)
+    {
+        _shoppingInfoText.gameObject.SetActive(value);
     }
 
     private void OnEnable()
     {
         for (int i = 0; i < _uiSlots.Length; i++)
             _uiSlots[i].ClickedCallback = OnSlotClicked;
-        
+
+        _inventory.IsShopping.EChanged += OnIsShopping;
         _inventory.EInventoryChanged += OnInventoryChanged;
         OnInventoryChanged(_inventory.Slots);
+        OnIsShopping(_inventory.IsShopping.Value);
     }
 
     private void OnDisable()
@@ -42,6 +51,7 @@ public class InventoryUI : UIPanel
         for (int i = 0; i < _uiSlots.Length; i++)
             _uiSlots[i].ClickedCallback = null;
         
+        _inventory.IsShopping.EChanged -= OnIsShopping;
         _inventory.EInventoryChanged -= OnInventoryChanged;
     }
 
