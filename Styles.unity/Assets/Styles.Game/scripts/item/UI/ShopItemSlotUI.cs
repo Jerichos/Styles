@@ -11,14 +11,13 @@ public class ShopItemSlotUI : ItemSlotUI
     [SerializeField] private TMP_Text _itemValueText;
     [SerializeField] private Button _buttonBuy;
 
-    private void OnEnable()
-    {
-        throw new NotImplementedException();
-    }
+    public Button ButtonBuy => _buttonBuy;
 
-    private void OnDisable()
+    public void SetShopItemSlot(ItemData item)
     {
-        throw new NotImplementedException();
+        _itemNameText.SetText(item.Name);
+        _itemValueText.SetText(item.Value + "$");
+        _iconImage.sprite = item.Icon;
     }
 }
 }

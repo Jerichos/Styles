@@ -7,7 +7,7 @@ namespace Styles.Game
 {
 public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private Image _iconImage;
+    [SerializeField] protected Image _iconImage;
     
     private int _slotID;
 
@@ -15,7 +15,7 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
 
     public GenericDelegate<int> ClickedCallback;
 
-    public void SetSlotID(int slotID)
+    public virtual void SetSlotID(int slotID)
     {
         _slotID = slotID;
     }

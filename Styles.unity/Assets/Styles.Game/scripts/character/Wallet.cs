@@ -8,8 +8,8 @@ public class Wallet : MonoBehaviour
 {
     public SAttribute<int> Money = 100;
 
-    public GenericDelegate<Wallet, ItemShop> OnShopping;
-    public GenericDelegate<Item> OnItemPurchased;
+    public event GenericDelegate<ItemShop> OnShopping;
+    public event GenericDelegate<Item> OnItemPurchased;
 
     private ItemShop _itemShop;
 
@@ -39,13 +39,13 @@ public class Wallet : MonoBehaviour
     {
         transform.Log($"StartShopping with {shop.name}");
         _itemShop = shop;
-        OnShopping?.Invoke(this, shop);
+        OnShopping?.Invoke(shop);
     }
 
     public void StopShopping()
     {
         _itemShop = null;
-        OnShopping?.Invoke(null, null);
+        OnShopping?.Invoke(null);
     }
 }
 }

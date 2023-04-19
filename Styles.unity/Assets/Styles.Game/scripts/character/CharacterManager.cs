@@ -109,7 +109,7 @@ public class CharacterManager : MonoBehaviour
     private void OnEnable()
     {
         _inventory.SlotUsedCallback = OnSlotUsed;
-        _wallet.OnItemPurchased = OnItemPurchased;
+        _wallet.OnItemPurchased += OnItemPurchased;
     }
 
     
@@ -117,7 +117,7 @@ public class CharacterManager : MonoBehaviour
     private void OnDisable()
     {
         _inventory.SlotUsedCallback = null;
-        _wallet.OnItemPurchased = null;
+        _wallet.OnItemPurchased -= OnItemPurchased;
     }
 }
 }
