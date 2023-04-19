@@ -11,16 +11,7 @@ public class Wallet : MonoBehaviour
     public event GenericDelegate<ItemShop> OnShopping;
     public event GenericDelegate<Item> OnItemPurchased;
 
-    // public void PurchaseItem(int itemID, ItemShop shop, PurchaseCallback callback)
-    // {
-    //     if (!shop)
-    //     {
-    //         Debug.LogError("no item shop ");
-    //         return;
-    //     }
-    //     
-    //     shop.PurchaseItem(this, itemID, OnItemPurchasedHandler);
-    // }
+    public CharacterManager Owner;
 
     public void OnItemPurchasedHandler(PurchaseCallback value)
     {

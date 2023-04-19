@@ -34,6 +34,13 @@ public class ItemShop : MonoBehaviour, IInteractable
             return;
         }
 
+        if (wallet.Owner && wallet.Owner.Inventory && wallet.Owner.Inventory.IsInventoryFull())
+        {
+            Debug.Log("inventory full");
+            callback?.Invoke(new PurchaseCallback {ReturnCode = PurchaseReturnCode.InventoryFull});
+            return;
+        }
+
         var money = wallet.Money.Value;
         money -= shopItems[shopItemID].Item.ItemData.Value;
         wallet.Money.Value = money;
@@ -80,5 +87,6 @@ public enum PurchaseReturnCode
     Success,
     NotEnoughMoney,
     NoItemLeft,
+    InventoryFull,
 }
 }

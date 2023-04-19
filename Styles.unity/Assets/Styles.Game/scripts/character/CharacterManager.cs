@@ -23,7 +23,13 @@ public class CharacterManager : MonoBehaviour
     public CharacterSkin Skin => _skin;
     public Inventory Inventory => _inventory;
     public Wallet Wallet => _wallet;
-    
+
+    private void Awake()
+    {
+        if (_wallet)
+            _wallet.Owner = this;
+    }
+
     private Facing _facing;
     private Facing SetFacing
     {
@@ -78,6 +84,7 @@ public class CharacterManager : MonoBehaviour
             SetFacing = direction.GetFacing();
         }
         
+        _wallet.StopShopping();
         _physics.Move(direction);
     }
     

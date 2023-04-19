@@ -146,6 +146,17 @@ public class Inventory : MonoBehaviour
         SlotUsedCallback?.Invoke(slotID, _slots[slotID], OnItemUsedCallback);
     }
 
+    public bool IsInventoryFull()
+    {
+        for (int i = 0; i < _slots.Length; i++)
+        {
+            if (_slots[i].Empty)
+                return false;
+        }
+
+        return true;
+    }
+
     private void OnItemUsedCallback(InventorySlotCallback callback)
     {
         if (callback.ReturnCode == InventoryReturnCode.RemoveItem)
