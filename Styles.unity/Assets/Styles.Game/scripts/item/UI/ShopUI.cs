@@ -85,7 +85,7 @@ public class ShopUI : UIPanel
             int id = i;
             _itemSlots[i].ButtonBuy.onClick.RemoveAllListeners();
             _itemSlots[i].ButtonBuy.onClick.AddListener(delegate { OnItemClicked(id); });
-            _itemSlots[i].SetShopItemSlot(_shop.ShopItems.Value[i]);
+            _itemSlots[i].SetShopItemSlot(_shop.ShopItems.Value[i], _wallet.Money.Value);
         }
     }
     private void OnItemClicked(int i)

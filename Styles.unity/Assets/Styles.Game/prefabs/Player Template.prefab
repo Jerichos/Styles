@@ -171,6 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Money:
     _value: 100
+  Owner: {fileID: 0}
 --- !u!1001 &3517030972170905098
 PrefabInstance:
   m_ObjectHideFlags: 0

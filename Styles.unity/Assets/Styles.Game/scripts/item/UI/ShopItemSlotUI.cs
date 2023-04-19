@@ -16,7 +16,7 @@ public class ShopItemSlotUI : ItemSlotUI
 
     public Button ButtonBuy => _buttonBuy;
 
-    public void SetShopItemSlot(ShopItem item)
+    public void SetShopItemSlot(ShopItem item, int money)
     {
         _itemNameText.SetText(item.Item.ItemData.Name);
         _itemAmountText.SetText(item.Amount.ToString());
@@ -24,7 +24,7 @@ public class ShopItemSlotUI : ItemSlotUI
         _iconImage.sprite = item.Item.ItemData.Icon;
 
         // if items are sold, disable interaction
-        _canvasGroup.interactable = item.Amount > 0;
+        _canvasGroup.interactable = item.Amount > 0 && money >= item.Item.ItemData.Value;
     }
 }
 }
