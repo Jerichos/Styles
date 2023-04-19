@@ -23,21 +23,21 @@ public class ItemShop : MonoBehaviour, IInteractable
         if (shopItems[shopItemID].Amount <= 0)
         {
             Debug.Log("No item left on the store.");
-            callback?.Invoke(new PurchaseCallback {ReturnCode = PurchaseReturnCode.NoItemLeft});
+            callback?.Invoke(new PurchaseCallback {ReturnCode = ShopReturnCode.NoItemLeft});
             return;
         }
 
         if (shopItems[shopItemID].Item.ItemData.Value > wallet.Money.Value)
         {
             Debug.Log("no enough money");
-            callback?.Invoke(new PurchaseCallback {ReturnCode = PurchaseReturnCode.NotEnoughMoney});
+            callback?.Invoke(new PurchaseCallback {ReturnCode = ShopReturnCode.NotEnoughMoney});
             return;
         }
 
         if (wallet.Owner && wallet.Owner.Inventory && wallet.Owner.Inventory.IsInventoryFull())
         {
             Debug.Log("inventory full");
-            callback?.Invoke(new PurchaseCallback {ReturnCode = PurchaseReturnCode.InventoryFull});
+            callback?.Invoke(new PurchaseCallback {ReturnCode = ShopReturnCode.InventoryFull});
             return;
         }
 
@@ -48,9 +48,18 @@ public class ItemShop : MonoBehaviour, IInteractable
         shopItems[shopItemID].Amount -= 1;
         ShopItems.Value = shopItems;
 
-        PurchaseCallback purchase = new() {Item = shopItems[shopItemID].Item.CreateItemInstance(), ReturnCode = PurchaseReturnCode.Success };
+        PurchaseCallback purchase = new() {Item = shopItems[shopItemID].Item.CreateItemInstance(), ReturnCode = ShopReturnCode.Success };
         callback.Invoke(purchase);
         wallet.OnItemPurchasedHandler(purchase);
+    }
+
+    public void SellItem(Wallet wallet, Item item, GenericDelegate<SellCallback> callback)
+    {
+        if(item == null)
+            return;
+
+        wallet.Money.Value += item.ItemSO.ItemData.Value / 2;
+        callback?.Invoke(new SellCallback{Item = item, ReturnCode = ShopReturnCode.Success});
     }
 
     public void Interact(MonoBehaviour actor)
@@ -68,10 +77,16 @@ public class ItemShop : MonoBehaviour, IInteractable
     }
 }
 
+public struct SellCallback
+{
+    public Item Item;
+    public ShopReturnCode ReturnCode;
+}
+
 public struct PurchaseCallback
 {
     public Item Item;
-    public PurchaseReturnCode ReturnCode;
+    public ShopReturnCode ReturnCode;
 }
 
 [Serializable]
@@ -81,7 +96,7 @@ public struct ShopItem
     public int Amount;
 }
 
-public enum PurchaseReturnCode
+public enum ShopReturnCode
 {
     Rejected,
     Success,

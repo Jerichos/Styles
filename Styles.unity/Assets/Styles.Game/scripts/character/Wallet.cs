@@ -15,7 +15,7 @@ public class Wallet : MonoBehaviour
 
     public void OnItemPurchasedHandler(PurchaseCallback value)
     {
-        if (value.ReturnCode != PurchaseReturnCode.Success)
+        if (value.ReturnCode != ShopReturnCode.Success)
         {
             Debug.Log($"item was not purchased. Reason {value.ReturnCode}");
             return;
