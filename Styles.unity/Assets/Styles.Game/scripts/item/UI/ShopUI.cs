@@ -35,7 +35,6 @@ public class ShopUI : UIPanel
             OnStartShopping(shop);
             Open();
         }
-
     }
 
     private void OnStartShopping(ItemShop shop)
@@ -44,19 +43,25 @@ public class ShopUI : UIPanel
         UnsubscribeFromShop(_shop);
         
         _shop = shop;
-        _shop.ShopItems.EChanged += OnShopItemsChanged;
+        _shop.ShopItems.EChanged += RefreshUI;
+        
+        RefreshUI(_shop.ShopItems.Value);
+    }
+
+    private void RefreshUI(ShopItem[] value)
+    {
+        Debug.Log("refresh UI");
         
         // disable buttons which are not needed
-        for (int i = _shop.ShopItems.Value.Length; i < _itemSlots.Length; ++i)
+        for (int i = value.Length; i < _itemSlots.Length; ++i)
         {
             _itemSlots[i].gameObject.SetActive(false);
         }
 
-        if (_shop.ShopItems.Value.Length > _itemSlots.Length)
+        if (value.Length > _itemSlots.Length)
         {
             Debug.LogWarning("There are more items in shop then ShopUI has already spawned! Expand it");
-            //var currenItemSlots = _itemSlots;
-            ShopItemSlotUI[] newSlots = new ShopItemSlotUI[_shop.ShopItems.Value.Length];
+            ShopItemSlotUI[] newSlots = new ShopItemSlotUI[value.Length];
 
             // add current itemSlots to new array
             for (int i = 0; i < _itemSlots.Length; i++)
@@ -67,13 +72,6 @@ public class ShopUI : UIPanel
             {
                 Debug.Log($"creating new slot with ID {i}");
                 var newSlot = Instantiate(_shopItemSlotPrefab, _slotsPanel, false);
-
-                // if (newSlot.transform is RectTransform rect && _shopItemSlotPrefab.transform is RectTransform rect2)
-                // {
-                //     Debug.Log($"rect1 {rect.sizeDelta}, rect2 {rect2.sizeDelta}");
-                //     rect.sizeDelta = rect2.sizeDelta;
-                // }
-                
                 newSlots[i] = newSlot;
             }
 
@@ -85,32 +83,22 @@ public class ShopUI : UIPanel
         {
             _itemSlots[i].gameObject.SetActive(true);
             int id = i;
+            _itemSlots[i].ButtonBuy.onClick.RemoveAllListeners();
             _itemSlots[i].ButtonBuy.onClick.AddListener(delegate { OnItemClicked(id); });
-            _itemSlots[i].SetShopItemSlot(_shop.ShopItems.Value[i].Item.ItemData);
+            _itemSlots[i].SetShopItemSlot(_shop.ShopItems.Value[i]);
         }
     }
-
-    private void UnsubscribeFromShop(ItemShop shop)
-    {
-        for (int i = 0; i < _itemSlots.Length; i++)
-            _itemSlots[i].ButtonBuy.onClick.RemoveAllListeners();
-        
-        if(!shop)
-            return;
-        
-        shop.ShopItems.EChanged -= OnShopItemsChanged;
-    }
-
     private void OnItemClicked(int i)
     {
         Debug.Log($"but item clicked {i}");
+        _shop.PurchaseItem(_wallet, i, OnPurchase);
     }
 
-    private void OnShopItemsChanged(ShopItem[] value)
+    private void OnPurchase(PurchaseCallback value)
     {
-        throw new NotImplementedException();
+        Debug.Log($"OnPurchase {value.ReturnCode}");
     }
-    
+
     private void OnMoneyChanged(int value)
     {
         _moneyText.SetText(value + "$");
@@ -138,6 +126,17 @@ public class ShopUI : UIPanel
             _itemSlots[i].ButtonBuy.onClick.RemoveAllListeners();
 
         _wallet.Money.EChanged -= OnMoneyChanged;
+    }
+    
+    private void UnsubscribeFromShop(ItemShop shop)
+    {
+        for (int i = 0; i < _itemSlots.Length; i++)
+            _itemSlots[i].ButtonBuy.onClick.RemoveAllListeners();
+        
+        if(!shop)
+            return;
+        
+        shop.ShopItems.EChanged -= RefreshUI;
     }
 
     private void OnEnable()

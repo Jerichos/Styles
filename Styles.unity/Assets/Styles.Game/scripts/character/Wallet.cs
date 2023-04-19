@@ -11,20 +11,18 @@ public class Wallet : MonoBehaviour
     public event GenericDelegate<ItemShop> OnShopping;
     public event GenericDelegate<Item> OnItemPurchased;
 
-    private ItemShop _itemShop;
+    // public void PurchaseItem(int itemID, ItemShop shop, PurchaseCallback callback)
+    // {
+    //     if (!shop)
+    //     {
+    //         Debug.LogError("no item shop ");
+    //         return;
+    //     }
+    //     
+    //     shop.PurchaseItem(this, itemID, OnItemPurchasedHandler);
+    // }
 
-    public void PurchaseItem(int itemID, PurchaseCallback callback)
-    {
-        if (!_itemShop)
-        {
-            Debug.LogError("no item shop ");
-            return;
-        }
-        
-        _itemShop.PurchaseItem(this, itemID, OnItemPurchasedHandler);
-    }
-
-    private void OnItemPurchasedHandler(PurchaseCallback value)
+    public void OnItemPurchasedHandler(PurchaseCallback value)
     {
         if (value.ReturnCode != PurchaseReturnCode.Success)
         {
@@ -38,13 +36,11 @@ public class Wallet : MonoBehaviour
     public void StartShopping(ItemShop shop)
     {
         transform.Log($"StartShopping with {shop.name}");
-        _itemShop = shop;
         OnShopping?.Invoke(shop);
     }
 
     public void StopShopping()
     {
-        _itemShop = null;
         OnShopping?.Invoke(null);
     }
 }

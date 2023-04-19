@@ -25,9 +25,8 @@ public class CharacterManager : MonoBehaviour
     public Wallet Wallet => _wallet;
     
     private Facing _facing;
-    public Facing Facing
+    private Facing SetFacing
     {
-        get => _facing;
         set
         {
             if (_facing == value)
@@ -76,7 +75,7 @@ public class CharacterManager : MonoBehaviour
     {
         if (direction != Vector2.zero)
         {
-            Facing = direction.GetFacing();
+            SetFacing = direction.GetFacing();
         }
         
         _physics.Move(direction);
@@ -98,6 +97,7 @@ public class CharacterManager : MonoBehaviour
     
     private void OnItemPurchased(Item value)
     {
+        Debug.Log($"!!! item purchased {value}");
         _inventory.AddItem(value, OnAddToInventory);
     }
 
@@ -111,8 +111,6 @@ public class CharacterManager : MonoBehaviour
         _inventory.SlotUsedCallback = OnSlotUsed;
         _wallet.OnItemPurchased += OnItemPurchased;
     }
-
-    
 
     private void OnDisable()
     {

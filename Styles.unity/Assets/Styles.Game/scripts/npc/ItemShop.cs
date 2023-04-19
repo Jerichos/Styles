@@ -38,10 +38,12 @@ public class ItemShop : MonoBehaviour, IInteractable
         money -= shopItems[shopItemID].Item.ItemData.Value;
         wallet.Money.Value = money;
 
-        shopItems[shopItemID].Amount--;
-        ShopItems = shopItems;
-        
-        callback.Invoke(new PurchaseCallback{Item = shopItems[shopItemID].Item.CreateItemInstance(), ReturnCode = PurchaseReturnCode.Success});
+        shopItems[shopItemID].Amount -= 1;
+        ShopItems.Value = shopItems;
+
+        PurchaseCallback purchase = new() {Item = shopItems[shopItemID].Item.CreateItemInstance(), ReturnCode = PurchaseReturnCode.Success };
+        callback.Invoke(purchase);
+        wallet.OnItemPurchasedHandler(purchase);
     }
 
     public void Interact(MonoBehaviour actor)
