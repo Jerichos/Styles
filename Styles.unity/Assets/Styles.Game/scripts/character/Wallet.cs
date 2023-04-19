@@ -37,6 +37,7 @@ public class Wallet : MonoBehaviour
 
     public void StartShopping(ItemShop shop)
     {
+        transform.Log($"StartShopping with {shop.name}");
         _itemShop = shop;
         OnShopping?.Invoke(this, shop);
     }
