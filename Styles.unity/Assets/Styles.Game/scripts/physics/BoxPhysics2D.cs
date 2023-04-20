@@ -10,30 +10,41 @@ public class BoxPhysics2D
     private int _verticalRayCount;
     private int _horizontalRayCount;
 
-    private float _maxRayGap;
+    private float _rayGap;
     private float _colliderHalfWidth;
     private float _colliderHalfHeight;
 
     private LayerMask _collisionMask;
     private Vector2 _offset;
     private Vector2 _depthSize;
+    private Vector2 _depthCollider;
 
-    public BoxPhysics2D(BoxCollider2D collider, float maxRayGap, LayerMask collisionMask, float depth = 0.00f, float shrinkSizeMag = 0.90f)
+    /// <summary>
+    /// Cast rays from box sides. We expect that the BoxCollider2 is square. It must have same width and height.
+    /// TODO: Add support for rectangles.
+    /// </summary>
+    /// <param name="collider"></param>
+    /// <param name="rayGap"></param>
+    /// <param name="collisionMask"></param>
+    /// <param name="skinSizeMag">1 means rays will start from the edge of the BoxCollider. At 0.90 the rays will start at edge of imaginary BoxCollider shrunk by 10%</param>
+    public BoxPhysics2D(BoxCollider2D collider, float maxRayGap, LayerMask collisionMask, float skinSizeMag = 0.80f)
     {
         _collisionMask = collisionMask;
         _collider = collider;
         
-        var shrinkedSize = _collider.size * shrinkSizeMag;
-        _depthSize = Vector2.one * (1 - shrinkSizeMag) / 2;
+        _depthCollider = _collider.size * skinSizeMag;
+        _depthSize = Vector2.one * (1 - skinSizeMag) / 2;
         
-        _verticalRayCount = (int) Mathf.Ceil(shrinkedSize.y / maxRayGap) + 1;
-        _horizontalRayCount = (int) Mathf.Ceil(shrinkedSize.x / maxRayGap) + 1;
+        _verticalRayCount = Mathf.FloorToInt(_depthCollider.y / maxRayGap) + 2;
+        _horizontalRayCount = Mathf.FloorToInt(_depthCollider.x / maxRayGap) + 2;
 
-        _maxRayGap = maxRayGap;
+        _rayGap = _depthCollider.x / (_horizontalRayCount - 1);
 
-        _colliderHalfWidth = shrinkedSize.x / 2;
-        _colliderHalfHeight = shrinkedSize.y / 2;
+        _colliderHalfWidth = _depthCollider.x / 2;
+        _colliderHalfHeight = _depthCollider.y / 2;
 
+        Debug.Log($"colliderSize {collider.size} depthBoxCollider: {_depthCollider} gap: {_rayGap} rays: {_verticalRayCount}");
+        
         _offset = _collider.offset;
     }
 
@@ -48,7 +59,7 @@ public class BoxPhysics2D
 
         for (int i = 0; i < _horizontalRayCount; i++)
         {
-            Vector2 rayOrigin = position + Vector2.up * (_maxRayGap * i) + Vector2.right * (dir * _colliderHalfWidth)- Vector2.up * (_colliderHalfHeight) + _offset;
+            Vector2 rayOrigin = position + Vector2.up * (_rayGap * i) + Vector2.right * (dir * _colliderHalfWidth)- Vector2.up * (_colliderHalfHeight) + _offset;
             Vector2 rayDirection = Vector2.right * dir;
             float rayLength = Math.Abs(deltaX) + _depthSize.x;
 
@@ -78,7 +89,7 @@ public class BoxPhysics2D
 
         for (int i = 0; i < _verticalRayCount; i++)
         {
-            Vector2 rayOrigin = position + Vector2.right * (_maxRayGap * i) - Vector2.right * (_colliderHalfWidth) 
+            Vector2 rayOrigin = position + Vector2.right * (_rayGap * i) - Vector2.right * (_colliderHalfWidth) 
                 + Vector2.up * (dir * _colliderHalfHeight) + _offset;
             Vector2 rayDirection = Vector2.up * dir;
             float rayLength = Math.Abs(deltaY) + _depthSize.y;
@@ -96,6 +107,13 @@ public class BoxPhysics2D
         }
 
         return false;
+    }
+
+    public void DrawGizmo(Vector2 transformPosition)
+    {
+        var position = transformPosition + _collider.offset;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(position, _depthCollider);
     }
 }
 }

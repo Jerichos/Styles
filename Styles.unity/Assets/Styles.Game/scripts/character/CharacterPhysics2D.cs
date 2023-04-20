@@ -1,4 +1,5 @@
-﻿using Styles.Game.scripts.physics;
+﻿using System;
+using Styles.Game.scripts.physics;
 using UnityEngine;
 
 namespace Styles.Game
@@ -55,6 +56,11 @@ public class CharacterPhysics2D : MonoBehaviour
     public void Teleport(Vector2 teleportPosition)
     {
         _transform.position = teleportPosition;
+    }
+
+    private void OnDrawGizmos()
+    {
+        _boxPhysics?.DrawGizmo(transform.position);
     }
 }
 }

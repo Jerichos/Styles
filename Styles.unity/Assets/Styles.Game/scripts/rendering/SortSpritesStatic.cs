@@ -12,7 +12,7 @@ public class SortSpritesStatic : MonoBehaviour
 
     private void Awake()
     {
-        _renderers = GetComponentsInChildren<SpriteRenderer>();
+        _renderers = GetComponentsInChildren<SpriteRenderer>(true);
         _defaultOrders = new int[_renderers.Length];
 
         for (int i = 0; i < _defaultOrders.Length; i++)
@@ -26,7 +26,6 @@ public class SortSpritesStatic : MonoBehaviour
     protected void SortSprites(float y)
     {
         int sortingOrder = Mathf.CeilToInt(y * _sortingSettings.StepsPerUnit) * _sortingSettings.Step;
-        Debug.Log($"sortingOrder: {sortingOrder} y: {y}");
 
         for (int i = 0; i < _renderers.Length; i++)
         {
