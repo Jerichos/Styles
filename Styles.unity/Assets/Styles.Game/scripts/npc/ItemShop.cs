@@ -5,8 +5,12 @@ using UnityEngine.Serialization;
 
 namespace Styles.Game.npc
 {
+
+[RequireComponent(typeof(Collider2D))]
 public class ItemShop : MonoBehaviour, IInteractable
 {
+    [SerializeField] private ItemShop _sharedShop;
+    
     public SAttribute<ShopItem[]> ShopItems;
 
     public void PurchaseItem(Wallet wallet, int shopItemID, GenericDelegate<PurchaseCallback> callback)
@@ -74,6 +78,15 @@ public class ItemShop : MonoBehaviour, IInteractable
         }
         
         character.Wallet.StartShopping(this);
+    }
+
+    private void OnValidate()
+    {
+        if (_sharedShop)
+        {
+            Debug.Log($"this shop has shared shop with {_sharedShop.transform}. You can only change shop items in references shared shop.");
+            ShopItems = _sharedShop.ShopItems;
+        }
     }
 }
 

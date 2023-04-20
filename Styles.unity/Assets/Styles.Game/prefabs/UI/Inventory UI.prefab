@@ -339,7 +339,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 904966501, guid: 51a053309af953a498d4a798112cf6e9, type: 3}
+  m_Sprite: {fileID: 2058006007, guid: 51a053309af953a498d4a798112cf6e9, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -527,10 +527,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6204e3b613fe459390062fa9aa162556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _showOnStart: 0
   _buttonExit: {fileID: 3711661679482458351}
+  _panel: {fileID: 8874523386389246428}
   _inventory: {fileID: 0}
   _slotPrefab: {fileID: 1960048611248921361, guid: 3ae6604cb70612944bea09a114c451f3, type: 3}
-  _panel: {fileID: 8874523386389246428}
   _panelSlots: {fileID: 8874523386826267959}
   _uiSlots:
   - {fileID: 0}
@@ -696,7 +697,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 294641492, guid: 51a053309af953a498d4a798112cf6e9, type: 3}
+  m_Sprite: {fileID: 904966501, guid: 51a053309af953a498d4a798112cf6e9, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1

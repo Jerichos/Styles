@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 140e6ceca79a4262ac6eb02dcb09fcee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sharedShop: {fileID: 0}
   ShopItems:
     _value:
     - Item: {fileID: 11400000, guid: 6f521dd272275914f94ee113564d3f54, type: 2}

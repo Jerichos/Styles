@@ -62,7 +62,6 @@ public class CharacterSkin : MonoBehaviour
     public readonly Dictionary<GarmentSlot, Garment> Garments = new();
     
     public event GenericDelegate<Dictionary<GarmentSlot, Garment>> EOutfitChanged;
-    public event GenericDelegate<Garment> EItemUnquiped;
 
     private Facing _facing;
     
