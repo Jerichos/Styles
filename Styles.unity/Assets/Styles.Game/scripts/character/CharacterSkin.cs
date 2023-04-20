@@ -225,7 +225,7 @@ public class CharacterSkin : MonoBehaviour
     {
         if (!_defaultOutfit)
         {
-            Debug.LogWarning("default outfit not set. You character is naked!");
+            transform.LogWarning("default outfit not set. Character is naked!");
             DestroyAllClothing();
             return;
         }
