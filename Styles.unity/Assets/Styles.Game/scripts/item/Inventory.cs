@@ -70,7 +70,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddItem(Item item, int slotID)
+    private void AddItem(Item item, int slotID)
     {
         if (!_slots[slotID].Empty)
         {

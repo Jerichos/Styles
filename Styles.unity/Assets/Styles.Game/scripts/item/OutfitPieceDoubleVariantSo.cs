@@ -5,13 +5,13 @@ using UnityEngine;
 namespace Styles.Game
 {
 [CreateAssetMenu(fileName = "Garment", menuName = "data/Garment", order = 0)]
-public class GarmentDoubleVariantSO : GarmentSO
+public class OutfitPieceDoubleVariantSo : OutfitPieceSO
 {
     [SerializeField] private SpriteVariants _rightSpriteVariants;
 
     public SpriteVariants RightSpriteVariants => _rightSpriteVariants;
 
-    private static readonly GarmentSlot[] ALLOWED_SLOTS = {GarmentSlot.Hands, GarmentSlot.Feet};
+    private static readonly OutfitSlot[] ALLOWED_SLOTS = {OutfitSlot.Hands, OutfitSlot.Feet};
 
     private void OnValidate()
     {

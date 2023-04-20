@@ -4,7 +4,7 @@ namespace Styles.Game
 {
 public class OutfitSlotUI : ItemSlotUI
 {
-    public GarmentSlot Slot;
+    public OutfitSlot Slot;
 
     private void OnValidate()
     {

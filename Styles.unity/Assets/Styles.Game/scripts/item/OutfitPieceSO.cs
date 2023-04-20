@@ -6,19 +6,19 @@ using UnityEngine.Serialization;
 namespace Styles.Game
 {
 [CreateAssetMenu(fileName = "Garment", menuName = "data/Garment", order = 0)]
-public class GarmentSO : ItemSO
+public class OutfitPieceSO : ItemSO
 {
-    [SerializeField] protected GarmentSlot _slot;
+    [SerializeField] protected OutfitSlot _slot;
     [SerializeField] private SpriteVariants _spriteVariants;
 
-    public GarmentSlot Slot => _slot;
+    public OutfitSlot Slot => _slot;
     public SpriteVariants SpriteVariants => _spriteVariants;
     
-    private static readonly GarmentSlot[] ALLOWED_SLOTS = {GarmentSlot.Head, GarmentSlot.Body};
+    private static readonly OutfitSlot[] ALLOWED_SLOTS = {OutfitSlot.Head, OutfitSlot.Body};
     
     public override Item CreateItemInstance()
     {
-        return new Garment(this);
+        return new OutfitPiece(this);
     }
     
     private void OnValidate()

@@ -18,7 +18,7 @@ public enum BodySlot
     FootR,
 }
 
-public enum GarmentSlot
+public enum OutfitSlot
 {
     Head,
     Body,
@@ -48,20 +48,19 @@ public class CharacterSkin : MonoBehaviour
     [SerializeField] private SpriteRenderer _footL;
 
     [Header("Cloth renderers")] 
-    [SerializeField] private SpriteRenderer _headGarment;
-    [SerializeField] private SpriteRenderer _bodyGarment;
-    [SerializeField] private SpriteRenderer _handGarmentL;
-    [SerializeField] private SpriteRenderer _handGarmentR;
-    [SerializeField] private SpriteRenderer _footGarmentL;
-    [SerializeField] private SpriteRenderer _footGarmentR;
+    [FormerlySerializedAs("_headGarment")] [SerializeField] private SpriteRenderer _headOutfitRenderer;
+    [FormerlySerializedAs("_bodyGarment")] [SerializeField] private SpriteRenderer _bodyOutfitRenderer;
+    [FormerlySerializedAs("_handGarmentL")] [SerializeField] private SpriteRenderer _handOutfitRendererL;
+    [FormerlySerializedAs("_handGarmentR")] [SerializeField] private SpriteRenderer _handOutfitRendererR;
+    [FormerlySerializedAs("_footGarmentL")] [SerializeField] private SpriteRenderer _footOutfitRendererL;
+    [FormerlySerializedAs("_footGarmentR")] [SerializeField] private SpriteRenderer _footOutfitRendererR;
     
-    private readonly Dictionary<BodySlot, SpriteRenderer> BodyRenderers = new();
-    private readonly Dictionary<GarmentSlot, SpriteRenderer[]> GarmentRenderers = new();
+    private readonly Dictionary<BodySlot, SpriteRenderer> BodyRenderersMap = new();
+    private readonly Dictionary<OutfitSlot, SpriteRenderer[]> OutfitRenderersMap = new();
 
-    // TODO: change Garments to outfit (more understandable)
-    public readonly Dictionary<GarmentSlot, Garment> Garments = new();
+    public readonly Dictionary<OutfitSlot, OutfitPiece> Outfit = new();
     
-    public event GenericDelegate<Dictionary<GarmentSlot, Garment>> EOutfitChanged;
+    public event GenericDelegate<Dictionary<OutfitSlot, OutfitPiece>> EOutfitChanged;
 
     private Facing _facing;
     
@@ -70,49 +69,49 @@ public class CharacterSkin : MonoBehaviour
         InitializeRenderersAndSlots();
         UpdateSkin(Facing.Front);
         InitializeDefaultOutfit();
-        UpdateGarments(Facing.Front);
+        UpdateOutfit(Facing.Front);
     }
 
     private void InitializeRenderersAndSlots()
     {
         // initialize skin renderers dictionary
-        if(!BodyRenderers.ContainsKey(BodySlot.Body))
-            BodyRenderers.Add(BodySlot.Body, _body);
-        if(!BodyRenderers.ContainsKey(BodySlot.Head))
-            BodyRenderers.Add(BodySlot.Head, _head);
-        if(!BodyRenderers.ContainsKey(BodySlot.HandR))
-            BodyRenderers.Add(BodySlot.HandR, _handR);
-        if(!BodyRenderers.ContainsKey(BodySlot.HandL))
-            BodyRenderers.Add(BodySlot.HandL, _handL);
-        if(!BodyRenderers.ContainsKey(BodySlot.FootL))
-            BodyRenderers.Add(BodySlot.FootL, _footL);
-        if(!BodyRenderers.ContainsKey(BodySlot.FootR))
-            BodyRenderers.Add(BodySlot.FootR, _footR);
+        if(!BodyRenderersMap.ContainsKey(BodySlot.Body))
+            BodyRenderersMap.Add(BodySlot.Body, _body);
+        if(!BodyRenderersMap.ContainsKey(BodySlot.Head))
+            BodyRenderersMap.Add(BodySlot.Head, _head);
+        if(!BodyRenderersMap.ContainsKey(BodySlot.HandR))
+            BodyRenderersMap.Add(BodySlot.HandR, _handR);
+        if(!BodyRenderersMap.ContainsKey(BodySlot.HandL))
+            BodyRenderersMap.Add(BodySlot.HandL, _handL);
+        if(!BodyRenderersMap.ContainsKey(BodySlot.FootL))
+            BodyRenderersMap.Add(BodySlot.FootL, _footL);
+        if(!BodyRenderersMap.ContainsKey(BodySlot.FootR))
+            BodyRenderersMap.Add(BodySlot.FootR, _footR);
         
         // initialize garment renderers
-        if (!GarmentRenderers.ContainsKey(GarmentSlot.Head))
-            GarmentRenderers.Add(GarmentSlot.Head, new []{_headGarment});
-        if(!GarmentRenderers.ContainsKey(GarmentSlot.Body))
-            GarmentRenderers.Add(GarmentSlot.Body, new []{_bodyGarment});
-        if (!GarmentRenderers.ContainsKey(GarmentSlot.Hands))
-            GarmentRenderers.Add(GarmentSlot.Hands, new []{_handGarmentL, _handGarmentR});
-        if(!GarmentRenderers.ContainsKey(GarmentSlot.Feet))
-            GarmentRenderers.Add(GarmentSlot.Feet, new []{_footGarmentL, _footGarmentR});
+        if (!OutfitRenderersMap.ContainsKey(OutfitSlot.Head))
+            OutfitRenderersMap.Add(OutfitSlot.Head, new []{_headOutfitRenderer});
+        if(!OutfitRenderersMap.ContainsKey(OutfitSlot.Body))
+            OutfitRenderersMap.Add(OutfitSlot.Body, new []{_bodyOutfitRenderer});
+        if (!OutfitRenderersMap.ContainsKey(OutfitSlot.Hands))
+            OutfitRenderersMap.Add(OutfitSlot.Hands, new []{_handOutfitRendererL, _handOutfitRendererR});
+        if(!OutfitRenderersMap.ContainsKey(OutfitSlot.Feet))
+            OutfitRenderersMap.Add(OutfitSlot.Feet, new []{_footOutfitRendererL, _footOutfitRendererR});
         
         // initialize garment slots
-        if(!Garments.ContainsKey(GarmentSlot.Head))
-            Garments.Add(GarmentSlot.Head, null);
+        if(!Outfit.ContainsKey(OutfitSlot.Head))
+            Outfit.Add(OutfitSlot.Head, null);
         
-        if(!Garments.ContainsKey(GarmentSlot.Body))
-            Garments.Add(GarmentSlot.Body, null);
+        if(!Outfit.ContainsKey(OutfitSlot.Body))
+            Outfit.Add(OutfitSlot.Body, null);
         
-        if(!Garments.ContainsKey(GarmentSlot.Hands))
-            Garments.Add(GarmentSlot.Hands, null);
+        if(!Outfit.ContainsKey(OutfitSlot.Hands))
+            Outfit.Add(OutfitSlot.Hands, null);
         
-        if(!Garments.ContainsKey(GarmentSlot.Feet))
-            Garments.Add(GarmentSlot.Feet, null);
+        if(!Outfit.ContainsKey(OutfitSlot.Feet))
+            Outfit.Add(OutfitSlot.Feet, null);
         
-        EOutfitChanged?.Invoke(Garments);
+        EOutfitChanged?.Invoke(Outfit);
     }
     
     public void UpdateSkin(Facing facing)
@@ -125,12 +124,12 @@ public class CharacterSkin : MonoBehaviour
             return;
         }
         
-        BodyRenderers[BodySlot.Head].sprite = _characterSkin.SkinData.Head.GetSprite(facing);
-        BodyRenderers[BodySlot.Body].sprite = _characterSkin.SkinData.Body.GetSprite(facing);
-        BodyRenderers[BodySlot.HandL].sprite = _characterSkin.SkinData.HandL.GetSprite(facing);
-        BodyRenderers[BodySlot.HandR].sprite = _characterSkin.SkinData.HandR.GetSprite(facing);
-        BodyRenderers[BodySlot.FootL].sprite = _characterSkin.SkinData.FootL.GetSprite(facing);
-        BodyRenderers[BodySlot.FootR].sprite = _characterSkin.SkinData.FootR.GetSprite(facing);
+        BodyRenderersMap[BodySlot.Head].sprite = _characterSkin.SkinData.Head.GetSprite(facing);
+        BodyRenderersMap[BodySlot.Body].sprite = _characterSkin.SkinData.Body.GetSprite(facing);
+        BodyRenderersMap[BodySlot.HandL].sprite = _characterSkin.SkinData.HandL.GetSprite(facing);
+        BodyRenderersMap[BodySlot.HandR].sprite = _characterSkin.SkinData.HandR.GetSprite(facing);
+        BodyRenderersMap[BodySlot.FootL].sprite = _characterSkin.SkinData.FootL.GetSprite(facing);
+        BodyRenderersMap[BodySlot.FootR].sprite = _characterSkin.SkinData.FootR.GetSprite(facing);
         
         if(facing == Facing.Left)
         {
@@ -146,52 +145,51 @@ public class CharacterSkin : MonoBehaviour
         }
     }
 
-    public void UpdateGarments(Facing facing)
+    public void UpdateOutfit(Facing facing)
     {
         _facing = facing;
         
-        foreach (var garment in Garments)
+        foreach (var outfitPiece in Outfit)
         {
-            UpdateGarmentSlot(garment.Key, facing);
+            UpdateOutfitSlot(outfitPiece.Key, facing);
         }
     }
     
-    public void Unequip(GarmentSlot slot)
+    public void Unequip(OutfitSlot slot)
     {
         Debug.Log($"unequip {slot}");
-        if (Garments[slot] == null)
+        if (Outfit[slot] == null)
         {
             Debug.Log("nothing to unquip");
             return;
         }
         
-        var garment = Garments[slot];
-        Garments[slot] = null;
-        UpdateGarmentSlot(slot, _facing);
-        EOutfitChanged?.Invoke(Garments);
+        Outfit[slot] = null;
+        UpdateOutfitSlot(slot, _facing);
+        EOutfitChanged?.Invoke(Outfit);
     }
 
-    private void UpdateGarmentSlot(GarmentSlot slot, Facing facing)
+    private void UpdateOutfitSlot(OutfitSlot slot, Facing facing)
     {
         _facing = facing;
         
-        if (!GarmentRenderers.ContainsKey(slot))
+        if (!OutfitRenderersMap.ContainsKey(slot))
         {
             Debug.LogError($"missing slot key in GarmentRenderers of slot {slot.ToString()}");
             return;
         }
         
-        if (!GarmentRenderers[slot][0])
+        if (!OutfitRenderersMap[slot][0])
         {
             Debug.LogError($"missing SpriteRenderer in GarmentRenderers of slot {slot.ToString()}");
             return;
         }
 
-        var garment = Garments[slot];
+        var outfitPiece = Outfit[slot];
         
-        if (garment == null)
+        if (outfitPiece == null)
         {
-            foreach (var renderers in GarmentRenderers[slot])
+            foreach (var renderers in OutfitRenderersMap[slot])
             {
                 renderers.sprite = null;
                 renderers.gameObject.SetActive(false);
@@ -200,23 +198,23 @@ public class CharacterSkin : MonoBehaviour
             return;
         }
 
-        if (((Item) garment).ItemSO is GarmentSO garmentSO)
+        if (((Item) outfitPiece).ItemSO is OutfitPieceSO outfitPieceSO)
         {
-            GarmentRenderers[slot][0].gameObject.SetActive(true);
-            GarmentRenderers[slot][0].sprite = garmentSO.SpriteVariants.GetSprite(facing);
+            OutfitRenderersMap[slot][0].gameObject.SetActive(true);
+            OutfitRenderersMap[slot][0].sprite = outfitPieceSO.SpriteVariants.GetSprite(facing);
         }
         
-        if (((Item) garment).ItemSO is GarmentDoubleVariantSO garmentDoubleSO)
+        if (((Item) outfitPiece).ItemSO is OutfitPieceDoubleVariantSo doubleOutfitPiece)
         {
             // check if there is renderer for right variant sprite
-            if (GarmentRenderers[slot].Length <= 1 || !GarmentRenderers[slot][1])
+            if (OutfitRenderersMap[slot].Length <= 1 || !OutfitRenderersMap[slot][1])
             {
                 Debug.LogError($"missing right variant SpriteRenderer in GarmentRenderers of slot {slot.ToString()}");
                 return;
             }
             
-            GarmentRenderers[slot][1].gameObject.SetActive(true);
-            GarmentRenderers[slot][1].sprite = garmentDoubleSO.RightSpriteVariants.GetSprite(facing);
+            OutfitRenderersMap[slot][1].gameObject.SetActive(true);
+            OutfitRenderersMap[slot][1].sprite = doubleOutfitPiece.RightSpriteVariants.GetSprite(facing);
         }
     }
 
@@ -229,31 +227,31 @@ public class CharacterSkin : MonoBehaviour
             return;
         }
 
-        foreach (GarmentSlot slot in Enum.GetValues(typeof(GarmentSlot)))
+        foreach (OutfitSlot slot in Enum.GetValues(typeof(OutfitSlot)))
         {
             if (!_defaultOutfit.GetOutfitPieceSO(slot))
             {
                 Debug.LogWarning($"there is no default outfit garment for slot {slot.ToString()}");
-                Garments[slot] = null;
+                Outfit[slot] = null;
                 continue;
             }
 
-            if (!Garments.ContainsKey(slot))
+            if (!Outfit.ContainsKey(slot))
             {
                 Debug.LogError($"there is no key slot defined in Garments. {slot.ToString()}");
                 continue;
             }
             
-            Garments[slot] = _defaultOutfit.CreatePieceInstance(slot);
+            Outfit[slot] = _defaultOutfit.CreatePieceInstance(slot);
         }
         
-        EOutfitChanged?.Invoke(Garments);
+        EOutfitChanged?.Invoke(Outfit);
     }
 
     private void DestroyAllClothing()
     {
-        Garments.Keys.ToList().ForEach(x => Garments[x] = null);
-        EOutfitChanged?.Invoke(Garments);
+        Outfit.Keys.ToList().ForEach(x => Outfit[x] = null);
+        EOutfitChanged?.Invoke(Outfit);
     }
 
     private void OnValidate()
@@ -261,17 +259,17 @@ public class CharacterSkin : MonoBehaviour
         InitializeRenderersAndSlots();
         UpdateSkin(Facing.Front);
         InitializeDefaultOutfit();
-        UpdateGarments(Facing.Front);
+        UpdateOutfit(Facing.Front);
     }
 
-    public Garment EquipItem(Garment garment)
+    public OutfitPiece EquipItem(OutfitPiece outfitPiece)
     {
         Debug.Log("3 equip item");
-        var previousGarment = Garments[garment.ItemSO.Slot];
-        Garments[garment.ItemSO.Slot] = garment;
-        UpdateGarmentSlot(garment.ItemSO.Slot, _facing);
-        EOutfitChanged?.Invoke(Garments);
-        return previousGarment;
+        var previousOutfitPiece = Outfit[outfitPiece.ItemSO.Slot];
+        Outfit[outfitPiece.ItemSO.Slot] = outfitPiece;
+        UpdateOutfitSlot(outfitPiece.ItemSO.Slot, _facing);
+        EOutfitChanged?.Invoke(Outfit);
+        return previousOutfitPiece;
     }
 }
 }

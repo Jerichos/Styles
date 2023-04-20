@@ -18,7 +18,7 @@ public class OutfitUI : UIPanel
             _outfitSlots[i].SetSlotID(i);
     }
 
-    private void OnOutfitChanged(Dictionary<GarmentSlot, Garment> outfit)
+    private void OnOutfitChanged(Dictionary<OutfitSlot, OutfitPiece> outfit)
     {
         Debug.Log("OnOutFitChanged");
         for (int i = 0; i < _outfitSlots.Length; i++)
@@ -35,7 +35,7 @@ public class OutfitUI : UIPanel
     
     private void OnSlotClicked(int slotID)
     {
-        var item = _characterSkin.Garments[_outfitSlots[slotID].Slot];
+        var item = _characterSkin.Outfit[_outfitSlots[slotID].Slot];
         if(item == null)
             return;
         
@@ -57,7 +57,7 @@ public class OutfitUI : UIPanel
             return;
         }
         
-        if(callbackValue.ItemSlot.Item is not Garment garment)
+        if(callbackValue.ItemSlot.Item is not OutfitPiece garment)
             return;
         
         Debug.Log(garment.ToString());
@@ -90,7 +90,7 @@ public class OutfitUI : UIPanel
         SubscribeToSlots();
         
         _characterSkin.EOutfitChanged += OnOutfitChanged;
-        OnOutfitChanged(_characterSkin.Garments);
+        OnOutfitChanged(_characterSkin.Outfit);
     }
 
     protected override void OnDisable()
@@ -100,7 +100,7 @@ public class OutfitUI : UIPanel
         UnsubscribeFromSlots();
         
         _characterSkin.EOutfitChanged -= OnOutfitChanged;
-        OnOutfitChanged(_characterSkin.Garments);
+        OnOutfitChanged(_characterSkin.Outfit);
     }
 }
 }

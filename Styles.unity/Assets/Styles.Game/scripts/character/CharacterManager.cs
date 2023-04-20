@@ -40,7 +40,7 @@ public class CharacterManager : MonoBehaviour
 
             _facing = value;
             _skin.UpdateSkin(_facing);
-            _skin.UpdateGarments(_facing);
+            _skin.UpdateOutfit(_facing);
         }
     }
 
@@ -94,7 +94,7 @@ public class CharacterManager : MonoBehaviour
             return;
         
         // if slot item is outfit piece, Equip it!
-        if (slot.Item is Garment garment)
+        if (slot.Item is OutfitPiece garment)
         {
             var previousItem = _skin.EquipItem(garment);
             callback?.Invoke(new InventorySlotCallback{SlotID = slotID, ReturnCode = InventoryReturnCode.RemoveItem, ReturningItem = previousItem});
