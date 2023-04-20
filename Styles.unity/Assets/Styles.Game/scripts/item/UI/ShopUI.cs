@@ -17,6 +17,7 @@ public class ShopUI : UIPanel
     [SerializeField] private Transform _slotsPanel;
     [SerializeField] private ShopItemSlotUI _shopItemSlotPrefab;
     [SerializeField] private TMP_Text _moneyText;
+    [SerializeField] private InventoryUI _inventoryUI;
 
     private ItemShop _shop;
     private ShopItemSlotUI[] _itemSlots;
@@ -92,8 +93,6 @@ public class ShopUI : UIPanel
         // update item slots
         for (int i = 0; i < _shop.ShopItems.Value.Length; ++i)
         {
-            // don't re-enable slots here as it will cause scroll view to jitter
-            //_itemSlots[i].gameObject.SetActive(true);
             int id = i;
             _itemSlots[i].ButtonBuy.onClick.RemoveAllListeners();
             _itemSlots[i].ButtonBuy.onClick.AddListener(delegate { OnItemClicked(id); });
@@ -142,6 +141,11 @@ public class ShopUI : UIPanel
             return;
         }
         
+        if(_inventoryUI)
+            _inventoryUI.Open();
+        else
+            transform.LogWarning("missing reference to InventoryUI");
+        
         _wallet.Money.EChanged += OnMoneyChanged;
         _inventory.ESlotUsed += OnInventoryItemUsed;
         _inventory.IsShopping.Value = true;
@@ -161,6 +165,11 @@ public class ShopUI : UIPanel
         _inventory.ESlotUsed -= OnInventoryItemUsed;
         _inventory.IsShopping.Value = false;
         
+        if(_inventoryUI)
+            _inventoryUI.Close();
+        else
+            transform.LogWarning("missing reference to InventoryUI");
+        
         UnsubscribeFromShop(_shop);
     }
     
@@ -175,13 +184,15 @@ public class ShopUI : UIPanel
         shop.ShopItems.EChanged -= RefreshUI;
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         _wallet.OnShopping += OnShopping;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         _wallet.OnShopping -= OnShopping;
     }
 }

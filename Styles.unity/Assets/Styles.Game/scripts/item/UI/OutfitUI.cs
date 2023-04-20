@@ -83,16 +83,20 @@ public class OutfitUI : UIPanel
         }
     }
     
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+        
         SubscribeToSlots();
         
         _characterSkin.EOutfitChanged += OnOutfitChanged;
         OnOutfitChanged(_characterSkin.Garments);
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+        
         UnsubscribeFromSlots();
         
         _characterSkin.EOutfitChanged -= OnOutfitChanged;

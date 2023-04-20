@@ -34,8 +34,10 @@ public class InventoryUI : UIPanel
         _shoppingInfoText.gameObject.SetActive(value);
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+        
         for (int i = 0; i < _uiSlots.Length; i++)
             _uiSlots[i].ClickedCallback = OnSlotClicked;
 
@@ -45,8 +47,10 @@ public class InventoryUI : UIPanel
         OnIsShopping(_inventory.IsShopping.Value);
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+        
         // don't invoke click callbacks when InventoryUI is closed
         for (int i = 0; i < _uiSlots.Length; i++)
             _uiSlots[i].ClickedCallback = null;
