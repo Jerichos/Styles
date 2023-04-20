@@ -140,11 +140,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2068534033852047738, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0014716387
+      value: 0.4985283
       objectReference: {fileID: 0}
     - target: {fileID: 2068534033852047738, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.494225
+      value: 0.49422503
       objectReference: {fileID: 0}
     - target: {fileID: 2068534033852047738, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -675,11 +675,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1474907610156284942, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.009168208
+      value: -1.6000001
       objectReference: {fileID: 0}
     - target: {fileID: 1474907610156284942, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.2941294
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1474907610156284942, guid: b2821fc342058ce4bb005c6ef3e0f99d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1702,6 +1702,7 @@ GameObject:
   - component: {fileID: 1089404384}
   - component: {fileID: 1089404383}
   - component: {fileID: 1089404385}
+  - component: {fileID: 1089404386}
   m_Layer: 6
   m_Name: Shop_A
   m_TagString: Untagged
@@ -1717,7 +1718,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1089404381}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1783,7 +1784,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1527692389
   m_SortingLayer: 1
-  m_SortingOrder: 20
+  m_SortingOrder: 0
   m_Sprite: {fileID: 779058876, guid: 4353a23fee9ed0d499a2865782171c25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1821,6 +1822,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.96, y: 0.505662}
   m_EdgeRadius: 0
+--- !u!114 &1089404386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089404381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c123f88c84c24c7c9bc25778f2d2240f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sortingSettings: {fileID: 11400000, guid: 94b6ccba1ce7ecc458326a3597bbec8a, type: 2}
 --- !u!1 &1253163132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1879,6 +1893,7 @@ GameObject:
   - component: {fileID: 1393521449}
   - component: {fileID: 1393521447}
   - component: {fileID: 1393521448}
+  - component: {fileID: 1393521451}
   m_Layer: 6
   m_Name: Shop_B
   m_TagString: Untagged
@@ -1973,7 +1988,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1527692389
   m_SortingLayer: 1
-  m_SortingOrder: 20
+  m_SortingOrder: 0
   m_Sprite: {fileID: 779058876, guid: 4353a23fee9ed0d499a2865782171c25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2000,6 +2015,19 @@ Transform:
   m_Father: {fileID: 1801363660}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1393521451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393521446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c123f88c84c24c7c9bc25778f2d2240f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sortingSettings: {fileID: 11400000, guid: 94b6ccba1ce7ecc458326a3597bbec8a, type: 2}
 --- !u!1 &1493349964
 GameObject:
   m_ObjectHideFlags: 0
@@ -2829,6 +2857,58 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1801363660}
     m_Modifications:
+    - target: {fileID: 1666920891370271054, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920891546590426, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920891581518998, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920891589210776, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920892100710160, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920892145291380, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920892251754795, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920892300527795, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920892485171066, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920892492968895, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920892939535096, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920892981131910, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666920893207321011, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2068534033852047737, guid: 9a37bd2f0bc25cc499fe10bf329939c8, type: 3}
       propertyPath: m_Name
       value: Trader B

@@ -29,6 +29,9 @@ public class Wallet : MonoBehaviour
 
     public void StartShopping(ItemShop shop)
     {
+        if(_shopping)
+            return;
+        
         _shopping = true;
         transform.Log($"StartShopping with {shop.name}");
         OnShopping?.Invoke(shop);
@@ -36,6 +39,9 @@ public class Wallet : MonoBehaviour
 
     public void StopShopping()
     {
+        if(!_shopping)
+            return;
+        
         _shopping = false;
         OnShopping?.Invoke(null);
     }
