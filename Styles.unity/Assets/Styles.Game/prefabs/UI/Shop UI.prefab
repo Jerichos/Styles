@@ -1048,10 +1048,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e717079b00374140858502ccd1e450af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _showOnStart: 0
   _buttonExit: {fileID: 6748997223358027803}
+  _panel: {fileID: 8583190521176391312}
   _wallet: {fileID: 0}
   _inventory: {fileID: 0}
-  _panel: {fileID: 8583190521176391319}
   _slotsPanel: {fileID: 8583190521648731210}
   _shopItemSlotPrefab: {fileID: 8134028179837096613, guid: 92b15aad446a5894facaa70d9f14e771, type: 3}
   _moneyText: {fileID: 8583190521682439441}

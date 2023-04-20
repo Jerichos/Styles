@@ -44,6 +44,33 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory UI"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ba9381b-05d9-430b-9ef1-13ef3557bf45"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Outfit UI"",
+                    ""type"": ""Button"",
+                    ""id"": ""38799fa1-4e41-4a31-a944-a5dbdd0f430e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Controls UI"",
+                    ""type"": ""Button"",
+                    ""id"": ""d7337b2c-4ada-44ce-befb-b25f12517992"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +139,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0bf59689-84da-4f6e-b758-405d878b37df"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory UI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a35eddc-f2cc-445d-8e54-313e10a21518"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Outfit UI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a69e0565-c850-44e8-b648-0b9fa1723d3b"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Controls UI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -134,6 +194,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Character = asset.FindActionMap("Character", throwIfNotFound: true);
         m_Character_Move = m_Character.FindAction("Move", throwIfNotFound: true);
         m_Character_Interact = m_Character.FindAction("Interact", throwIfNotFound: true);
+        m_Character_InventoryUI = m_Character.FindAction("Inventory UI", throwIfNotFound: true);
+        m_Character_OutfitUI = m_Character.FindAction("Outfit UI", throwIfNotFound: true);
+        m_Character_ControlsUI = m_Character.FindAction("Controls UI", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -195,12 +258,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private ICharacterActions m_CharacterActionsCallbackInterface;
     private readonly InputAction m_Character_Move;
     private readonly InputAction m_Character_Interact;
+    private readonly InputAction m_Character_InventoryUI;
+    private readonly InputAction m_Character_OutfitUI;
+    private readonly InputAction m_Character_ControlsUI;
     public struct CharacterActions
     {
         private @PlayerControls m_Wrapper;
         public CharacterActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Character_Move;
         public InputAction @Interact => m_Wrapper.m_Character_Interact;
+        public InputAction @InventoryUI => m_Wrapper.m_Character_InventoryUI;
+        public InputAction @OutfitUI => m_Wrapper.m_Character_OutfitUI;
+        public InputAction @ControlsUI => m_Wrapper.m_Character_ControlsUI;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -216,6 +285,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnInteract;
+                @InventoryUI.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnInventoryUI;
+                @InventoryUI.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnInventoryUI;
+                @InventoryUI.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnInventoryUI;
+                @OutfitUI.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnOutfitUI;
+                @OutfitUI.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnOutfitUI;
+                @OutfitUI.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnOutfitUI;
+                @ControlsUI.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnControlsUI;
+                @ControlsUI.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnControlsUI;
+                @ControlsUI.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnControlsUI;
             }
             m_Wrapper.m_CharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -226,6 +304,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @InventoryUI.started += instance.OnInventoryUI;
+                @InventoryUI.performed += instance.OnInventoryUI;
+                @InventoryUI.canceled += instance.OnInventoryUI;
+                @OutfitUI.started += instance.OnOutfitUI;
+                @OutfitUI.performed += instance.OnOutfitUI;
+                @OutfitUI.canceled += instance.OnOutfitUI;
+                @ControlsUI.started += instance.OnControlsUI;
+                @ControlsUI.performed += instance.OnControlsUI;
+                @ControlsUI.canceled += instance.OnControlsUI;
             }
         }
     }
@@ -243,5 +330,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnInventoryUI(InputAction.CallbackContext context);
+        void OnOutfitUI(InputAction.CallbackContext context);
+        void OnControlsUI(InputAction.CallbackContext context);
     }
 }

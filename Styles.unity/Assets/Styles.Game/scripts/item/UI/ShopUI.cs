@@ -13,7 +13,6 @@ public class ShopUI : UIPanel
     [SerializeField] private Inventory _inventory;
     
     [Header("ui components")]
-    [SerializeField] private Transform _panel;
     [SerializeField] private Transform _slotsPanel;
     [SerializeField] private ShopItemSlotUI _shopItemSlotPrefab;
     [SerializeField] private TMP_Text _moneyText;

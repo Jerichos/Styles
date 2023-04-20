@@ -8,7 +8,6 @@ public class InventoryUI : UIPanel
 {
     [SerializeField] private Inventory _inventory;
     [SerializeField] private InventorySlotUI _slotPrefab;
-    [SerializeField] private GameObject _panel;
     [SerializeField] private Transform _panelSlots;
 
     [SerializeField] private InventorySlotUI[] _uiSlots;

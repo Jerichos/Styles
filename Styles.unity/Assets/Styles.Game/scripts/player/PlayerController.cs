@@ -28,11 +28,30 @@ public class PlayerController : MonoBehaviour
         _playerControls.Character.Move.canceled += OnMoveCanceled;
 
         _playerControls.Character.Interact.performed += OnInteract;
+        
+        // ui input binding
+        _playerControls.Character.InventoryUI.performed += OnToggleInventorUI;
+        _playerControls.Character.OutfitUI.performed += OnToggleCharacterUI;
+        _playerControls.Character.ControlsUI.performed += OnToggleControlsUI;
+    }
+
+    private void OnToggleCharacterUI(InputAction.CallbackContext obj)
+    {
+        PlayerUIManager.Instance.ToggleOutfitUI();
+    }
+
+    private void OnToggleInventorUI(InputAction.CallbackContext obj)
+    {
+        PlayerUIManager.Instance.ToggleInventoryUI();
+    }
+    
+    private void OnToggleControlsUI(InputAction.CallbackContext obj)
+    {
+        PlayerUIManager.Instance.ToggleControlsUI();
     }
 
     private void OnInteract(InputAction.CallbackContext obj)
     {
-        Debug.Log("OnInteract");
         _character.Interact();
     }
 

@@ -459,7 +459,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af24603d1ac745b38e6d8ba8e1900903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _showOnStart: 0
   _buttonExit: {fileID: 1493876852464408026}
+  _panel: {fileID: 0}
   _character: {fileID: 0}
   _characterSkin: {fileID: 0}
   _outfitSlots:
