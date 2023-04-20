@@ -501,12 +501,12 @@ MonoBehaviour:
   _handL: {fileID: 835135185454787089}
   _footR: {fileID: 835135185972562117}
   _footL: {fileID: 835135185495491695}
-  _headGarment: {fileID: 835135184908108038}
-  _bodyGarment: {fileID: 835135185178253873}
-  _handGarmentL: {fileID: 835135184542378762}
-  _handGarmentR: {fileID: 835135184556601295}
-  _footGarmentL: {fileID: 835135184741093382}
-  _footGarmentR: {fileID: 835135185671498235}
+  _headOutfitRenderer: {fileID: 835135184908108038}
+  _bodyOutfitRenderer: {fileID: 835135185178253873}
+  _handOutfitRendererL: {fileID: 835135184542378762}
+  _handOutfitRendererR: {fileID: 835135184556601295}
+  _footOutfitRendererL: {fileID: 835135184741093382}
+  _footOutfitRendererR: {fileID: 835135185671498235}
 --- !u!114 &9209912871044444435
 MonoBehaviour:
   m_ObjectHideFlags: 0
