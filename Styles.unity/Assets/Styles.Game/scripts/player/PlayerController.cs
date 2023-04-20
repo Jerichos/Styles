@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         BindPlayerInput();
     }
-
+    
     private void BindPlayerInput()
     {
         _playerControls.Character.Enable();
@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
         _playerControls.Character.InventoryUI.performed += OnToggleInventorUI;
         _playerControls.Character.OutfitUI.performed += OnToggleCharacterUI;
         _playerControls.Character.ControlsUI.performed += OnToggleControlsUI;
+        _playerControls.Character.MainMenuUI.performed += OnToggleMainMenuUI;
     }
 
     private void OnToggleCharacterUI(InputAction.CallbackContext obj)
@@ -48,6 +49,11 @@ public class PlayerController : MonoBehaviour
     private void OnToggleControlsUI(InputAction.CallbackContext obj)
     {
         PlayerUIManager.Instance.ToggleControlsUI();
+    }
+    
+    private void OnToggleMainMenuUI(InputAction.CallbackContext obj)
+    {
+        PlayerUIManager.Instance.ToggleMainMenuUI();
     }
 
     private void OnInteract(InputAction.CallbackContext obj)
@@ -72,7 +78,18 @@ public class PlayerController : MonoBehaviour
 
     private void UnBindPlayerInput()
     {
+        _playerControls.Character.Disable();
+        
         _playerControls.Character.Move.performed -= OnMovePerformed;
+        _playerControls.Character.Move.canceled -= OnMoveCanceled;
+
+        _playerControls.Character.Interact.performed -= OnInteract;
+        
+        // ui input binding
+        _playerControls.Character.InventoryUI.performed -= OnToggleInventorUI;
+        _playerControls.Character.OutfitUI.performed -= OnToggleCharacterUI;
+        _playerControls.Character.ControlsUI.performed -= OnToggleControlsUI;
+        _playerControls.Character.MainMenuUI.performed -= OnToggleMainMenuUI;
     }
 }
 }

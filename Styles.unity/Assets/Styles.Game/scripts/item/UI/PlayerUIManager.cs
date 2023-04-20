@@ -5,13 +5,14 @@ namespace Styles.Game
 {
 public class PlayerUIManager : Singleton<PlayerUIManager>
 {
-    [SerializeField] private InventoryUI _inventory;
+    [SerializeField] private InventoryUI _inventoryUI;
     [SerializeField] private OutfitUI _outfitUI;
     [SerializeField] private ControlsUI _controlsUI;
+    [SerializeField] private MainMenuUI _mainMenuUI;
 
     public void ToggleInventoryUI()
     {
-        _inventory.Toggle();
+        _inventoryUI.Toggle();
     }
 
     public void ToggleOutfitUI()
@@ -22,6 +23,11 @@ public class PlayerUIManager : Singleton<PlayerUIManager>
     public void ToggleControlsUI()
     {
         _controlsUI.Toggle();
+    }
+
+    public void ToggleMainMenuUI()
+    {
+        _mainMenuUI.Toggle();
     }
 }
 }

@@ -71,6 +71,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MainMenu UI"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b9b884f-26e7-4796-926b-27e0caf9a034"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Controls UI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dcfb7e4d-1a2b-49e0-9ccf-c4ea8b9621ef"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MainMenu UI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -197,6 +217,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Character_InventoryUI = m_Character.FindAction("Inventory UI", throwIfNotFound: true);
         m_Character_OutfitUI = m_Character.FindAction("Outfit UI", throwIfNotFound: true);
         m_Character_ControlsUI = m_Character.FindAction("Controls UI", throwIfNotFound: true);
+        m_Character_MainMenuUI = m_Character.FindAction("MainMenu UI", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -261,6 +282,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_InventoryUI;
     private readonly InputAction m_Character_OutfitUI;
     private readonly InputAction m_Character_ControlsUI;
+    private readonly InputAction m_Character_MainMenuUI;
     public struct CharacterActions
     {
         private @PlayerControls m_Wrapper;
@@ -270,6 +292,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @InventoryUI => m_Wrapper.m_Character_InventoryUI;
         public InputAction @OutfitUI => m_Wrapper.m_Character_OutfitUI;
         public InputAction @ControlsUI => m_Wrapper.m_Character_ControlsUI;
+        public InputAction @MainMenuUI => m_Wrapper.m_Character_MainMenuUI;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -294,6 +317,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ControlsUI.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnControlsUI;
                 @ControlsUI.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnControlsUI;
                 @ControlsUI.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnControlsUI;
+                @MainMenuUI.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMainMenuUI;
+                @MainMenuUI.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMainMenuUI;
+                @MainMenuUI.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMainMenuUI;
             }
             m_Wrapper.m_CharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -313,6 +339,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ControlsUI.started += instance.OnControlsUI;
                 @ControlsUI.performed += instance.OnControlsUI;
                 @ControlsUI.canceled += instance.OnControlsUI;
+                @MainMenuUI.started += instance.OnMainMenuUI;
+                @MainMenuUI.performed += instance.OnMainMenuUI;
+                @MainMenuUI.canceled += instance.OnMainMenuUI;
             }
         }
     }
@@ -333,5 +362,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnInventoryUI(InputAction.CallbackContext context);
         void OnOutfitUI(InputAction.CallbackContext context);
         void OnControlsUI(InputAction.CallbackContext context);
+        void OnMainMenuUI(InputAction.CallbackContext context);
     }
 }

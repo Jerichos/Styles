@@ -148,10 +148,13 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'press ''W'' ''S'' ''A'' ''D'' to move
 
-    press ''I'' to show/hide Inventory
-    UI
+    press ''ESC'' to show/hide
+    Inventory UI
 
-    press ''TAB'' to show/hide Outfit UI
+    press ''I'' to show/hide Inventory UI
+
+    press ''TAB'' to
+    show/hide Outfit UI
 
     press ''E'' to interact'
   m_isRightToLeft: 0
